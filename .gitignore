@@ -1,1 +1,4 @@
 .env
+
+# Build artifacts
+.asc/artifacts/

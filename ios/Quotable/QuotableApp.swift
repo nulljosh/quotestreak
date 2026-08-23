@@ -1,11 +1,10 @@
 import SwiftUI
 
 @main
-struct QuoteGuessApp: App {
+struct QuotableApp: App {
     var body: some Scene {
         WindowGroup {
-            GameWebView()
-                .ignoresSafeArea()
+            ContentView()
         }
     }
 }
