@@ -8,7 +8,7 @@ Plain HTML/CSS/JS. Quote bank in `quotes.json` (100 hand-seeded quotes — see r
 ## iOS/macOS sync
 **iOS is a native SwiftUI app now, not a web wrapper.** The only file shared with the web game is `quotes.json` — copy it to `ios/Quotable/Resources/quotes.json` whenever the root one changes, and nothing else. The genre palette in `ios/Quotable/Theme.swift` mirrors the `--g-*` vars in `style.css`; keep the two in step by hand.
 
-`macos/Quotable/Resources/` is still the old WKWebView wrapper and still takes plain copies of `index.html`/`style.css`/`game.js`/`quotes.json`. It is unbuilt and unshipped — see the App Store section.
+macOS shares the iOS sources outright: `macos/project.yml` points at `../ios/Quotable/{Game,Quote,Theme,ContentView}.swift`. Do not fork those four files — `ContentView` branches on `#if os(macOS)` and `Theme.canvas` picks the right window ground per platform. Only `QuotableApp.swift`, `Info.plist` and `Resources/quotes.json` are macOS-local.
 
 ## Deploy
 GitHub Pages via `.github/workflows/deploy.yml` (Settings → Pages → Source: GitHub Actions).
@@ -37,4 +37,6 @@ Listed as **Quotestreak** (app id `6804394619`, bundle `com.heyitsmejosh.quotabl
 Ship with `asc workflow run ship-ios VERSION:x.y.z` (see `.asc/workflow.json`).
 
 ## macOS
-`macos/` — still the old AppKit/WKWebView wrapper. **Do not submit it as-is**; it would be rejected under 4.2 for the same reason the iOS wrapper would have been. Mirror the native iOS rewrite first.
+`macos/` — native SwiftUI, rewritten 2026-08-23 off the same shared sources as iOS. Sandboxed, bundle `com.heyitsmejosh.quotable.mac`. Builds clean.
+
+**Not submitted yet, deliberately.** No ASC record exists. A second brand-new thin-looking app in the same review window is the 5.6 trigger pattern, so it waits until the iOS listing clears review.

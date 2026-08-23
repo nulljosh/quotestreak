@@ -15,15 +15,17 @@ struct ContentView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
+            .background(Theme.canvas)
             .navigationTitle("Quotestreak")
+            #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 if game.phase == .playing {
-                    ToolbarItem(placement: .topBarLeading) {
+                    ToolbarItem(placement: .primaryAction) {
                         Text("\(game.score)").monospacedDigit().foregroundStyle(Theme.accent).bold()
                     }
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .primaryAction) {
                         Label("\(game.streak)", systemImage: "flame.fill")
                             .labelStyle(.titleAndIcon)
                             .foregroundStyle(game.streak > 0 ? .orange : .secondary)

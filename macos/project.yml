@@ -1,40 +1,49 @@
 name: Quotable
 options:
   bundleIdPrefix: com.heyitsmejosh
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
 targets:
   Quotable:
     type: application
     platform: macOS
-    deploymentTarget: "14.0"
     sources:
-      - Quotable
+      # Shared with iOS — Game/Quote/Theme are platform-agnostic and ContentView
+      # branches on #if os(macOS). Do not fork these files.
+      - path: ../ios/Quotable/Game.swift
+      - path: ../ios/Quotable/Quote.swift
+      - path: ../ios/Quotable/Theme.swift
+      - path: ../ios/Quotable/ContentView.swift
+      - path: Quotable/QuotableApp.swift
+      - path: Quotable/Resources
+        buildPhase: resources
+      - path: Assets.xcassets
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.heyitsmejosh.quotable.mac
-        MARKETING_VERSION: "1.0.0"
-        CURRENT_PROJECT_VERSION: "1"
-        GENERATE_INFOPLIST_FILE: YES
-  QuotableTests:
-    type: bundle.unit-test
-    platform: macOS
-    deploymentTarget: "14.0"
-    sources:
-      - QuotableTests
-      - path: Quotable/Resources
-        type: folder
-        buildPhase: resources
-    dependencies:
-      - target: Quotable
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.heyitsmejosh.quotable.mac.tests
-        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_FILE: Quotable/Info.plist
+        GENERATE_INFOPLIST_FILE: NO
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        DEVELOPMENT_TEAM: QMM486NPYC
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_ENTITLEMENTS: Quotable.entitlements
+
 schemes:
   Quotable:
     build:
       targets:
         Quotable: all
-        QuotableTests: [test]
-    test:
-      targets:
-        - QuotableTests
+    run:
+      config: Debug
+    archive:
+      config: Release
+    shared: true

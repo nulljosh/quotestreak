@@ -21,7 +21,7 @@ Open `http://localhost:8000`.
 - `index.html` / `style.css` / `game.js` — game
 - `quotes.json` — quote bank (`type: movie|music`, `genre`, `quote`, `answer`, `options`)
 - `ios/` — native SwiftUI app, published on the App Store as **Quotestreak**
-- `macos/` — SwiftUI wrapper (WKWebView, AppKit), unshipped
+- `macos/` — native SwiftUI, shares the iOS sources; built, not yet submitted
 
 ## Roadmap
 

@@ -14,6 +14,15 @@ extension Color {
 }
 
 enum Theme {
+    /// The window/page ground. `.systemBackground` is UIKit-only.
+    static var canvas: Color {
+        #if os(macOS)
+        Color(nsColor: .windowBackgroundColor)
+        #else
+        Color(uiColor: .systemBackground)
+        #endif
+    }
+
     static let accent = Color(hex: "5B9BD5")
     static let accent2 = Color(hex: "3d7bb8")
 
