@@ -3,7 +3,7 @@
 <plist version="1.0"><dict>
 <key>CFBundleDisplayName</key><string>Quotestreak</string>
 <key>CFBundleExecutable</key><string>$(EXECUTABLE_NAME)</string>
-<key>CFBundleIdentifier</key><string>com.heyitsmejosh.quotable.mac</string>
+<key>CFBundleIdentifier</key><string>com.heyitsmejosh.quotable</string>
 <key>CFBundleName</key><string>Quotestreak</string>
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>$(MARKETING_VERSION)</string>
