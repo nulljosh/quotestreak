@@ -1,12 +1,13 @@
 # Quotable Roadmap
 
-## macOS — blocked, needs the same native rewrite
-`macos/` is still an AppKit `NSViewRepresentable` wrapping `WKWebView`. Submitting it would be
-rejected under Guideline 4.2 for exactly the reason the iOS wrapper was replaced. Port
-`ios/Quotable/{Game,Quote,Theme,ContentView}.swift` across (the model is platform-agnostic; only
-`ContentView` needs macOS idioms), then create the ASC record and ship. Do not submit it until
-the iOS listing clears review — a second brand-new thin-looking app in the same window is the
-5.6 trigger pattern.
+## macOS — native SwiftUI rewrite complete, awaiting iOS review
+`macos/` was rewritten to native SwiftUI 2026-08-23, sharing iOS sources via xcodegen
+(`macos/project.yml` compiles `../ios/Quotable/{Game,Quote,Theme,ContentView}.swift`). Only
+`QuotableApp.swift`, `Info.plist`, and `Resources/quotes.json` are macOS-local. Sandboxed,
+bundle `com.heyitsmejosh.quotable.mac`. Builds clean.
+
+**Not submitted yet.** No ASC record exists. A second brand-new thin-looking app in the same
+review window is the 5.6 trigger pattern, so submission waits until the iOS listing clears review.
 
 ## Localization
 The web game has en/fr/zh/pa in `locales/`. The iOS app is English-only — porting four locales to
