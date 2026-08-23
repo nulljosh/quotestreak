@@ -1,8 +1,33 @@
 # Quotable Roadmap
 
-## From Apple Notes (imported 2026-08-04)
-- [ ] Add dad-favorite films and more music quotes. Source note: "Research dad films etc. Add some films dads would like. Same with music. Add music etc to this, if it's not there already. Should be all media, not just film." Status: all-media support already exists — `quotes.json` has 193 entries with a `type` field (`movie` | `music`, 143 movie / 50 music) and the `movie` field was renamed to `answer` in v1.5.0, so this is a **data-only add**, no schema or UI change needed. Existing genres: movies drama/action/comedy/scifi/classic, music pop/rock/hiphop/rnb/country. Gaps for a "dad" pass — movies: Shawshank, Goodfellas, Caddyshack, Full Metal Jacket, spaghetti westerns, Cool Hand Luke, Gladiator, Braveheart, Saving Private Ryan, Blues Brothers, Raiders, First Blood, Lethal Weapon, Tombstone, The Untouchables, Heat, Rain Man, Airplane!, Ghostbusters, Blazing Saddles; music: Springsteen, Eagles, Led Zeppelin, AC/DC, CCR, Tom Petty, Fleetwood Mac, Billy Joel, Van Halen, Lynyrd Skynyrd, Willie Nelson, Neil Young, Bob Dylan, Bob Seger. Each entry needs `quote`, `answer`, `options` (4), `genre`, `type`, `year` (movies). Art backfill: `TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs` for movies (key is in `.env`); music `art` uses iTunes Search API URLs. `art` is optional — `game.js` no-ops when absent. Per CLAUDE.md, re-copy `index.html`/`style.css`/`game.js`/`quotes.json` into `ios/QuoteGuess/Resources/` and `macos/Quotable/Resources/` after changing quotes.json.
+## macOS — blocked, needs the same native rewrite
+`macos/` is still an AppKit `NSViewRepresentable` wrapping `WKWebView`. Submitting it would be
+rejected under Guideline 4.2 for exactly the reason the iOS wrapper was replaced. Port
+`ios/Quotable/{Game,Quote,Theme,ContentView}.swift` across (the model is platform-agnostic; only
+`ContentView` needs macOS idioms), then create the ASC record and ship. Do not submit it until
+the iOS listing clears review — a second brand-new thin-looking app in the same window is the
+5.6 trigger pattern.
 
-## From Apple Notes (imported 2026-08-11)
+## Localization
+The web game has en/fr/zh/pa in `locales/`. The iOS app is English-only — porting four locales to
+a String Catalog was skipped for 1.0. Add `Localizable.xcstrings` if there is real demand.
 
-> Resume note (2026-08-11): a `wip: partial work from /work notes ingest` commit holds unfinished, unverified changes for the items above. Review `git show HEAD` before building on it — it was committed mid-flight, not reviewed, and is unpushed.
+## Quote bank
+272 entries (178 movie, 94 music). Movie art backfills via
+`TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs`; music `art` uses iTunes Search URLs. `art` is
+optional — `game.js` no-ops when absent and the iOS app never uses it.
+
+Remaining gaps from the original dad-pass note: spaghetti westerns beyond The Good, the Bad and
+the Ugly; more Merle Haggard / Waylon Jennings on the country side.
+
+Run the self-check after any bank edit — it catches duplicate quotes, which the bank had 32 of
+before 2026-08-23:
+
+```
+swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift ios/Checks/main.swift && /tmp/quotablecheck quotes.json
+```
+
+## Ideas, unscheduled
+- Game Center leaderboard for the speed round. Deliberately skipped for 1.0 — content depth was
+  the cheaper answer to 4.2 than a new subsystem.
+- Grow the bank from a free quotes dataset rather than hand-seeding.
