@@ -2,3 +2,4 @@
 
 # Build artifacts
 .asc/artifacts/
+.DS_Store
