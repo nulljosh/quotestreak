@@ -36,3 +36,7 @@ MIT 2026, Joshua Trommel
 ## Whitepaper
 
 [Technical whitepaper](WHITEPAPER.md)
+
+## API and agent tools
+
+Quotable exposes its game state and controls to agents via WebMCP. See [docs/API.md](docs/API.md).

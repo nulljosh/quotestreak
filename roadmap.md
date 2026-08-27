@@ -53,3 +53,8 @@ Rules the shipped ones follow:
 - Bail out quietly when `document.modelContext` is missing.
 - Ship a `docs/API.md` listing REST routes (or stating there are none) plus the
   tool table split into read-only / reversible / confirmation-gated.
+
+## From Apple Notes (imported 2026-08-27)
+- [ ] Quotestreak iOS 1.0 and macOS 1.0 both APPROVED and live (id6804394619) as of Aug 23 2026.
+- [ ] Quotable still needs a landing page plus iOS and Mac apps.
+- [ ] Add dad's idea and expand/extrapolate on it (ask Joshua to restate the idea).

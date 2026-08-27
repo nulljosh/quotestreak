@@ -205,3 +205,23 @@ $('share').onclick = () => {
     setTimeout(() => { $('share').textContent = 'Share Score'; }, 1500);
   });
 };
+
+// Exports for webmcp.js — read-only accessors + the existing handlers themselves.
+window.quotableStartGame = startGame;
+window.quotableChoose = choose;
+window.quotableNextQuestion = nextQuestion;
+window.quotableSetGenre = (genre) => { $('genre').value = genre; };
+window.quotableGetState = () => ({
+  inProgress: !gameEl.classList.contains('hidden'),
+  speedMode,
+  score,
+  streak,
+  genre: $('genre').value,
+  question: current ? {
+    genre: current.genre,
+    type: current.type,
+    quote: current.quote,
+    options: current.options,
+  } : null,
+});
+window.quotableGetHighScore = () => parseInt(localStorage.getItem(HIGH_KEY) || '0', 10);
