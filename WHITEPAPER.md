@@ -1,6 +1,6 @@
 # Quotable Technical Whitepaper
 
-**v1.5.0** | July 2026
+**v1.5.0** | August 2026
 
 Quotable is a movie-quote and music-lyric guessing game. Static site, no
 build step, no backend.
@@ -19,7 +19,8 @@ bundled audio assets — and also persist in `localStorage`.
 
 ## Structure
 
-Plain HTML/CSS/JS, no framework, no chart/game library. `ios/` and `macos/`
+Plain HTML/CSS/JS, no framework, no chart/game library. iOS and macOS ship
+under one Universal Purchase ASC record (6804394619). `ios/` and `macos/`
 are thin WKWebView/`NSViewRepresentable` wrappers that bundle literal copies
 of the root `index.html`/`style.css`/`game.js`/`quotes.json` as resources
 (not symlinked, not built) — the four files must be re-copied into both
