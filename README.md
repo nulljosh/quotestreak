@@ -18,7 +18,8 @@ Open `http://localhost:8000`.
 
 ## Structure
 
-- `index.html` / `style.css` / `game.js` — game
+- `index.html` — landing page (self-contained; hero is a drifting wall of poster/album art built from `quotes.json`)
+- `play.html` / `style.css` / `game.js` — game
 - `quotes.json` — quote bank (`type: movie|music`, `genre`, `quote`, `answer`, `options`)
 - `ios/` — native SwiftUI app, published on the App Store as **Quotestreak**
 - `macos/` — native SwiftUI, shares the iOS sources; built, not yet submitted

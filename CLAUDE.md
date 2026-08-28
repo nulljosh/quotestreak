@@ -10,6 +10,13 @@ Plain HTML/CSS/JS. Quote bank in `quotes.json` (100 hand-seeded quotes — see r
 
 macOS shares the iOS sources outright: `macos/project.yml` points at `../ios/Quotable/{Game,Quote,Theme,ContentView}.swift`. Do not fork those four files — `ContentView` branches on `#if os(macOS)` and `Theme.canvas` picks the right window ground per platform. Only `QuotableApp.swift`, `Info.plist` and `Resources/quotes.json` are macOS-local.
 
+## Pages
+`index.html` is the **landing page**, `play.html` is the game. (Before v1.6.1 the game was at `index.html`.) The landing page is self-contained — its own inline `<style>`, no `style.css`, no `game.js`. Keep it that way: `game.js` wires its handlers at parse time and throws if any game element id is missing, so it must never be loaded on a page without the full game markup.
+
+The landing page mirrors the Bookrank landing page (`nulljosh/bookrank` `index.html`) on purpose — same hero/features/closing structure, same drifting image wall. Two deliberate differences from that reference: album art is tagged `.square` (`aspect-ratio: 1/1`) so 1:1 iTunes art is not center-cropped into a 2:3 poster shape, and the reduced-motion rule is written as `.wall-col.up, .wall-col.down` — at the bare `.wall-col` specificity Bookrank uses, the `animation` shorthand on `.wall-col.up` wins and the wall keeps moving for users who asked it not to.
+
+The hero wall is the one sanctioned exception to the standing "no gradients" rule: `.hero::after` is a legibility scrim over the art, not decoration. The game UI keeps flat backgrounds.
+
 ## Deploy
 GitHub Pages via `.github/workflows/deploy.yml` (Settings → Pages → Source: GitHub Actions).
 
@@ -39,4 +46,4 @@ Ship with `asc workflow run ship-ios VERSION:x.y.z` (see `.asc/workflow.json`).
 ## macOS
 `macos/` — native SwiftUI, rewritten 2026-08-23 off the same shared sources as iOS. Sandboxed, bundle `com.heyitsmejosh.quotable.mac`. Builds clean.
 
-**Not submitted yet, deliberately.** No ASC record exists. A second brand-new thin-looking app in the same review window is the 5.6 trigger pattern, so it waits until the iOS listing clears review.
+**Shipped.** The "not submitted yet, deliberately / no ASC record exists" note here was stale — `roadmap.md` records iOS 1.0 and macOS 1.0 both APPROVED and live as of 2026-08-23 on the shared Universal Purchase record 6804394619. The landing page links both store pages (`?mt=12` for Mac); if either listing is ever pulled, drop the matching hero button.

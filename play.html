@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Play — Quotable</title>
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<script>
+  const mq = matchMedia('(prefers-color-scheme: light)');
+  document.documentElement.dataset.theme = mq.matches ? 'light' : 'dark';
+  mq.addEventListener('change', e => document.documentElement.dataset.theme = e.matches ? 'light' : 'dark');
+</script>
+</head>
+<body>
+  <nav class="topbar">
+    <a class="brand" href="/" aria-label="Quotable home">
+      <img src="icon.svg" alt="" class="logo">
+      <span class="wordmark">Quotable</span>
+    </a>
+    <div class="stats">
+      <span id="score">Score: 0</span>
+      <span id="streak">Streak: 0</span>
+      <button id="settings-btn" aria-label="Settings">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.36.31.64.7.82 1.13.19.42.29.87.29 1.33"/></svg>
+      </button>
+    </div>
+  </nav>
+  <main class="wrap">
+    <div id="settings" class="panel hidden">
+      <h2>Settings</h2>
+      <label class="setting-row">
+        <span>Sound effects</span>
+        <input type="checkbox" id="sfx-toggle">
+      </label>
+      <label class="setting-row">
+        <span>Volume</span>
+        <input type="range" id="sfx-volume" min="0" max="100" value="60">
+      </label>
+      <button id="settings-close">Close</button>
+    </div>
+
+    <div id="mode-select" class="panel">
+      <p>Guess the movie or artist from the quote.</p>
+      <select id="genre">
+        <option value="all">All genres</option>
+      </select>
+      <button id="start-normal">Play</button>
+      <button id="start-speed">Speed Round (10s)</button>
+    </div>
+
+    <div id="game" class="panel hidden">
+      <div class="timer-ring hidden" id="timer-ring">
+        <svg viewBox="0 0 36 36">
+          <path class="ring-bg" d="M18 2 a16 16 0 0 1 0 32 a16 16 0 0 1 0 -32" />
+          <path class="ring-fg" id="ring-fg" d="M18 2 a16 16 0 0 1 0 32 a16 16 0 0 1 0 -32" />
+        </svg>
+        <span id="timer-num"></span>
+      </div>
+      <span id="genre-badge" class="genre-badge"></span>
+      <p id="prompt" class="prompt"></p>
+      <blockquote id="quote"></blockquote>
+      <div id="options" class="options"></div>
+      <p id="feedback"></p>
+    </div>
+
+    <div id="end" class="panel hidden">
+      <h2>Game Over</h2>
+      <p id="final-score"></p>
+      <button id="restart">Play Again</button>
+      <button id="share">Share Score</button>
+    </div>
+  </main>
+  <script src="game.js"></script>
+  <script src="webmcp.js"></script>
+</body>
+</html>

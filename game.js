@@ -198,7 +198,7 @@ $('restart').onclick = () => {
   modeSelect.classList.remove('hidden');
 };
 $('share').onclick = () => {
-  const text = `I scored ${score} on Quotable! Can you beat me? https://nulljosh.github.io/quotable`;
+  const text = `I scored ${score} on Quotable! Can you beat me? https://quotable.heyitsmejosh.com`;
   if (navigator.share) navigator.share({ text });
   else navigator.clipboard.writeText(text).then(() => {
     $('share').textContent = 'Copied!';
