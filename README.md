@@ -41,3 +41,7 @@ MIT 2026, Joshua Trommel
 ## API and agent tools
 
 Quotestreak exposes its game state and controls to agents via WebMCP. See [docs/API.md](docs/API.md).
+
+## Architecture
+
+<img src="architecture.svg" width="600">
