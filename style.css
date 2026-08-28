@@ -43,7 +43,8 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* matches index.html: SF on Apple, Helvetica elsewhere. 'DM Sans' used to lead here but is never loaded. */
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -20,7 +20,8 @@
   --text: #1c1d22;
   --text2: #5c5f6a;
   --border: #e6e7ea;
-  --font-body: -apple-system, system-ui, "DM Sans", "Segoe UI", sans-serif;
+  /* San Francisco on Apple platforms, Helvetica everywhere else. No webfont: nothing to load, nothing to FOUT. */
+  --font-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
