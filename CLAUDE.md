@@ -17,6 +17,8 @@ The landing page mirrors the Bookrank landing page (`nulljosh/bookrank` `index.h
 
 The hero wall is the one sanctioned exception to the standing "no gradients" rule: `.hero::after` is a legibility scrim over the art, not decoration. The game UI keeps flat backgrounds.
 
+`play.html` has its own `#backdrop` mosaic of the same artwork, built by `buildBackdrop()` in `game.js` off the quotes.json fetch that is already there — do not add a second fetch. Two deliberate differences from the hero wall: it is **static**, because the speed round is a timed attention task and drifting posters behind a 10-second clock fight the clock; and it holds legibility with low opacity alone (0.14 light / 0.22 dark) rather than a scrim, so the game UI keeps its flat backgrounds and the no-gradients rule stays intact there. Tune those two numbers if real artwork reads too busy. It sits at `z-index: -2`, below `#art-flash` at `-1`, so the answer-reveal flash still lands on top.
+
 ## Icon
 `icon.svg` is **pure geometry — no `<text>`, no font dependency** (2026-08-28). It is two opening quote marks drawn as paths on a dark rounded square, matching the orientation of the icon already live on the App Store.
 

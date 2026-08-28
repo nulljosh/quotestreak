@@ -74,7 +74,43 @@ fetch('quotes.json').then(r => r.json()).then(data => {
     opt.textContent = g[0].toUpperCase() + g.slice(1);
     genreSelect.appendChild(opt);
   });
+  buildBackdrop(data);
 });
+
+// Static mosaic of the bank's artwork behind the game. Reuses the fetch above rather than
+// pulling quotes.json twice, and asks for thumbnails, not the full-size art flashArt() uses.
+function buildBackdrop(data) {
+  const el = $('backdrop');
+  if (!el) return;
+  const seen = new Set();
+  const art = [];
+  data.forEach(q => {
+    if (!q.art || seen.has(q.art)) return;
+    seen.add(q.art);
+    art.push({
+      url: q.art.replace('/w500/', '/w185/').replace('/600x600bb.jpg', '/200x200bb.jpg'),
+      sq: q.type === 'music',
+    });
+  });
+  if (art.length < 8) return;
+  const shuffled = shuffle(art);
+  const cols = Math.max(3, Math.ceil(window.innerWidth / 150));
+  const per = Math.ceil(window.innerHeight / 150) + 1;
+  for (let c = 0; c < cols; c++) {
+    const col = document.createElement('div');
+    col.className = 'bcol';
+    for (let r = 0; r < per; r++) {
+      const a = shuffled[(c * per + r) % shuffled.length];
+      const img = new Image();
+      img.src = a.url;
+      img.alt = '';
+      img.referrerPolicy = 'no-referrer';
+      if (a.sq) img.className = 'sq';
+      col.appendChild(img);
+    }
+    el.appendChild(col);
+  }
+}
 
 function shuffle(arr) {
   return [...arr].sort(() => Math.random() - 0.5);
