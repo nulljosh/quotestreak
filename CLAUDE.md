@@ -20,6 +20,8 @@ The hero wall is the one sanctioned exception to the standing "no gradients" rul
 ## Icon
 `icon.svg` is **pure geometry — no `<text>`, no font dependency** (2026-08-28). It is two opening quote marks drawn as paths on a dark rounded square, matching the orientation of the icon already live on the App Store.
 
+**The tail must stay longer than the ball.** A first attempt used a big ball (r34) with a short 38-unit tail and read as two speech bubbles, not punctuation. The shipped glyph inverts that — ball r24 (48 tall), tail 56 — and reads as a quote mark all the way down to 20px. Two other approaches were tried and rejected: tapered slanted wedges (reads as a pause button, which is what the original Menlo `"` looked like), and quote-marks-over-text-lines (unmistakable but busy, and needs a second colour).
+
 It used to set a `"` glyph and the word `QUOTE` in Menlo as two `<text>` elements. That is why the v1.5.1 note below says the lettering renders ~4px tall at icon size — that specific reasoning is now moot, but **its conclusion still stands: keep the HTML wordmark in the topbar.** A bare quote mark does not name the product, so the mark and the wordmark ship together. Do not drop the wordmark and do not put text back in the icon.
 
 App icons are generated from `icon.svg`, not hand-exported (hand-exporting is what left the old shipped iOS icon floating in the top third of its canvas):
