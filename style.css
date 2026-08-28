@@ -106,6 +106,7 @@ button {
   margin: 6px;
   cursor: pointer;
   transition: transform 0.1s ease;
+  font-family: inherit;  /* form controls do not inherit it; without this every button falls back to the UA font */
 }
 select {
   appearance: none;

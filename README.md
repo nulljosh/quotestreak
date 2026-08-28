@@ -2,7 +2,7 @@
 
 # Quotable
 
-![version](https://img.shields.io/badge/version-1.6.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fquotestreak-black?logo=github)](https://github.com/nulljosh/quotestreak)
+![version](https://img.shields.io/badge/version-1.7.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fquotestreak-black?logo=github)](https://github.com/nulljosh/quotestreak)
 
 Guess the movie or artist from a quote. Multiple choice, plus a 10-second speed round with a score multiplier for fast answers. 272 entries (178 movie quotes + 94 song lyrics) across 10 genres.
 
