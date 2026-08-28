@@ -40,5 +40,4 @@ See `docs/API.md` for the full tool table, linked from the README.
 
 ## From Apple Notes (imported 2026-08-27)
 - [ ] Quotestreak iOS 1.0 and macOS 1.0 both APPROVED and live (id6804394619) as of Aug 23 2026.
-- [x] Landing page shipped 2026-08-28 at `index.html`; the game moved to `play.html`. iOS and Mac apps are live.
 - [ ] Add dad's idea and expand/extrapolate on it (ask Joshua to restate the idea).
