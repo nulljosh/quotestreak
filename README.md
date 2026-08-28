@@ -1,6 +1,6 @@
 <img src="icon.svg" width="80" style="border-radius:18px">
 
-# Quotable
+# Quotestreak
 
 ![version](https://img.shields.io/badge/version-1.7.0-blue) ![license](https://img.shields.io/badge/license-MIT-green) [![GitHub](https://img.shields.io/badge/GitHub-nulljosh%2Fquotestreak-black?logo=github)](https://github.com/nulljosh/quotestreak)
 
@@ -40,4 +40,4 @@ MIT 2026, Joshua Trommel
 
 ## API and agent tools
 
-Quotable exposes its game state and controls to agents via WebMCP. See [docs/API.md](docs/API.md).
+Quotestreak exposes its game state and controls to agents via WebMCP. See [docs/API.md](docs/API.md).

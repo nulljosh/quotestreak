@@ -1,4 +1,4 @@
-# Quotable
+# Quotestreak
 
 Movie-quote guessing game. Static site, no build step, no backend.
 
@@ -39,7 +39,15 @@ swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift io
 It validates the whole quote bank (4 unique options, answer present, no duplicate quotes, movies have years) and the scoring paths (streaks, the speed multiplier, timeout-as-miss).
 
 ## App Store
-Listed as **Quotestreak** (app id `6804394619`, bundle `com.heyitsmejosh.quotable`) — "Quotable", "Quotely", "Quipster", "Recite" and "Cueline" are all taken by other accounts. The repo, the web game and `quotable.heyitsmejosh.com` keep the Quotable name; only the store listing and the on-device display name are Quotestreak.
+Listed as **Quotestreak** (app id `6804394619`, bundle `com.heyitsmejosh.quotable`) — "Quotable", "Quotely", "Quipster", "Recite" and "Cueline" are all taken by other accounts.
+
+**The product is Quotestreak everywhere** (2026-08-28). The web game used to keep the Quotable name while only the store listing was Quotestreak; that split is gone — every user-facing string on the site now reads Quotestreak. Three things deliberately still say "quotable" and must NOT be renamed:
+
+- `CNAME` / `quotable.heyitsmejosh.com` — the live domain. Changing it is a DNS move, not a rename.
+- `quotable_high_score`, `quotable_sfx_on`, `quotable_sfx_vol` — localStorage keys on players' machines. Renaming them silently wipes every existing high score and sound setting.
+- `window.quotable*` — the globals `webmcp.js` binds to. Renaming breaks the agent tools for nothing.
+
+The bundle id `com.heyitsmejosh.quotable` is likewise fixed; it is bound to ASC record 6804394619, and changing it means a new app record, not a rename.
 
 Ship with `asc workflow run ship-ios VERSION:x.y.z` (see `.asc/workflow.json`).
 

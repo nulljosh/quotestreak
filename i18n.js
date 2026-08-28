@@ -1,4 +1,4 @@
-// Quotable i18n runtime (vanilla, no framework). Loads generated locale JSON,
+// Quotestreak i18n runtime (vanilla, no framework). Loads generated locale JSON,
 // swaps [data-i18n] text, exposes t(key, vars) for game.js's dynamic strings.
 (function () {
   const SUPPORTED = ["en", "fr", "zh", "pa"];

@@ -1,10 +1,11 @@
-# Quotable Technical Whitepaper
+# Quotestreak Technical Whitepaper
 
 **v1.7.0** | August 2026
 
-Quotable is a movie-quote and music-lyric guessing game. Static site, no
-build step, no backend. Published on the App Store as **Quotestreak**; the
-repo, the web game and `quotable.heyitsmejosh.com` keep the Quotable name.
+Quotestreak is a movie-quote and music-lyric guessing game. Static site, no
+build step, no backend. The product is Quotestreak everywhere — App Store,
+repo and web. Only the domain (`quotable.heyitsmejosh.com`) and the
+`quotable_*` localStorage keys still carry the old name; see below.
 
 ## Guessing Engine
 

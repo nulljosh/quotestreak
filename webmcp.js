@@ -1,4 +1,4 @@
-// webmcp.js — registers Quotable's game state and controls as WebMCP tools
+// webmcp.js — registers Quotestreak's game state and controls as WebMCP tools
 // for agents visiting the page. Read-only tools first, then reversible writes.
 //
 // ponytail: tools delegate to the existing handlers exported by game.js
