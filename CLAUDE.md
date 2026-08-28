@@ -17,6 +17,18 @@ The landing page mirrors the Bookrank landing page (`nulljosh/bookrank` `index.h
 
 The hero wall is the one sanctioned exception to the standing "no gradients" rule: `.hero::after` is a legibility scrim over the art, not decoration. The game UI keeps flat backgrounds.
 
+## Icon
+`icon.svg` is **pure geometry — no `<text>`, no font dependency** (2026-08-28). It is two opening quote marks drawn as paths on a dark rounded square, matching the orientation of the icon already live on the App Store.
+
+It used to set a `"` glyph and the word `QUOTE` in Menlo as two `<text>` elements. That is why the v1.5.1 note below says the lettering renders ~4px tall at icon size — that specific reasoning is now moot, but **its conclusion still stands: keep the HTML wordmark in the topbar.** A bare quote mark does not name the product, so the mark and the wordmark ship together. Do not drop the wordmark and do not put text back in the icon.
+
+App icons are generated from `icon.svg`, not hand-exported (hand-exporting is what left the old shipped iOS icon floating in the top third of its canvas):
+
+- iOS `ios/Assets.xcassets/AppIcon.appiconset/AppIcon.png` — 1024, **square, corners NOT rounded**; iOS applies its own mask, so baked corners would be double-rounded.
+- macOS `macos/Assets.xcassets/AppIcon.appiconset/icon_{16,32,64,128,256,512,1024}.png` — rounded corners baked in, which macOS expects.
+
+All of them must be **opaque, no alpha channel** — Apple rejects an app icon carrying one (ITMS-90717). Regenerating them here changes only the repo; the store listings keep the old icon until a new build is submitted.
+
 ## Deploy
 GitHub Pages via `.github/workflows/deploy.yml` (Settings → Pages → Source: GitHub Actions).
 

@@ -1,5 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
-  <rect width="200" height="200" rx="36" fill="#0b0d10"/>
-  <text x="100" y="95" font-family="Menlo, monospace" font-size="70" fill="#ffcc00" text-anchor="middle">"</text>
-  <text x="100" y="150" font-family="Menlo, monospace" font-size="24" fill="#eee" text-anchor="middle">QUOTE</text>
+  <rect width="200" height="200" rx="44" fill="#0b0d10"/>
+  <g fill="#ffcc00">
+    <path transform="translate(34,58) scale(0.78) rotate(180,34,53)" d="M 0,34 A 34,34 0 1,1 68,34 C 68,72 48,96 20,106 C 32,86 38,70 34,64 A 34,34 0 0,1 0,34 Z"/>
+    <path transform="translate(113,58) scale(0.78) rotate(180,34,53)" d="M 0,34 A 34,34 0 1,1 68,34 C 68,72 48,96 20,106 C 32,86 38,70 34,64 A 34,34 0 0,1 0,34 Z"/>
+  </g>
 </svg>
