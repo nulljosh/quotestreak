@@ -11,6 +11,10 @@
   document.documentElement.dataset.theme = mq.matches ? 'light' : 'dark';
   mq.addEventListener('change', e => document.documentElement.dataset.theme = e.matches ? 'light' : 'dark');
 </script>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#5B9BD5">
+  <link rel="apple-touch-icon" href="/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
 <body>
   <div id="backdrop" aria-hidden="true"></div>
@@ -74,5 +78,6 @@
   </main>
   <script src="game.js"></script>
   <script src="webmcp.js"></script>
+  <script>if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));</script>
 </body>
 </html>
