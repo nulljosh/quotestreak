@@ -21,6 +21,8 @@ final class Game {
     /// Set once an answer is picked; nil while the question is open.
     private(set) var pickedAnswer: String?
     private(set) var lastWasCorrect: Bool?
+    /// Points the last correct answer earned, so the feedback line can read "Correct! +30".
+    private(set) var lastPoints = 0
     private(set) var highScore = UserDefaults.standard.integer(forKey: Game.highKey)
 
     private static let highKey = "quotable_high_score"
@@ -46,6 +48,7 @@ final class Game {
     func nextQuestion() {
         pickedAnswer = nil
         lastWasCorrect = nil
+        lastPoints = 0
         timeLeft = Self.timeLimit
         guard let next = pool.popLast() else { return endGame() }
         current = next
@@ -65,6 +68,7 @@ final class Game {
         let points = pendingPoints
         pickedAnswer = answer
         lastWasCorrect = correct
+        lastPoints = correct ? points : 0
         if correct {
             streak += 1
             score += points

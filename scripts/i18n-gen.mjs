@@ -24,3 +24,22 @@ for (const lng of locales) {
 const translated = (lng) => keys.filter((k) => lng === sourceLanguage || (src[k][lng] && src[k][lng].length)).length;
 console.log(`i18n-gen: ${keys.length} keys -> locales/*.json`);
 for (const lng of locales) console.log(`  ${lng}: ${translated(lng)}/${keys.length} translated`);
+
+// Native String Catalog. SwiftUI's key for `Text("Score: \(n)")` is "Score: %lld", so the
+// web's {n}/{s} tokens are rewritten to the printf specifiers Swift generates.
+const swiftKey = (k) => k.replace(/\{n\d*\}/g, "%lld").replace(/\{s\}/g, "%@");
+const strings = {};
+for (const k of keys) {
+  const localizations = {};
+  for (const lng of locales) {
+    const v = lng === sourceLanguage ? src[k][sourceLanguage] : src[k][lng];
+    if (!v) continue;
+    localizations[lng] = { stringUnit: { state: "translated", value: swiftKey(v) } };
+  }
+  strings[swiftKey(k)] = { extractionState: "manual", localizations };
+}
+writeFileSync(
+  resolve(root, "ios/Quotable/Localizable.xcstrings"),
+  JSON.stringify({ sourceLanguage, strings, version: "1.0" }, null, 2) + "\n"
+);
+console.log(`i18n-gen: ${keys.length} keys -> ios/Quotable/Localizable.xcstrings`);

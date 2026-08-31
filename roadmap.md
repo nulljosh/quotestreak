@@ -1,14 +1,19 @@
 # Quotable Roadmap
 
 ## App Store status
+1.1 (2026-08-31) brings the native apps to parity with the web game: sound effects with a volume
+slider, the album/poster art flash on a correct answer, the points earned in the feedback line,
+the four locales, and the correct share URL (it pointed at the dead github.io page).
+
 Both iOS and macOS v1.0 are **WAITING_FOR_REVIEW** on the shared Universal Purchase record 6804394619.
 Blockers solved: generated full ICNS appiconset with 512pt@2x (Mac App Store requirement exceeds iOS),
 captured macOS screenshots via CGWindowListCopyWindowInfo window ID lookup (no AppleScript
 System Events). Both submitted 2026-08-23 (iOS build 202608230326, macOS build 202608230338).
 
 ## Localization
-The web game has en/fr/zh/pa in `locales/`. The iOS app is English-only — porting four locales to
-a String Catalog was skipped for 1.0. Add `Localizable.xcstrings` if there is real demand.
+One source, `i18n/strings.json`, generates both `locales/*.json` (web) and
+`ios/Quotable/Localizable.xcstrings` (iOS + macOS) via `node scripts/i18n-gen.mjs`. en/fr are
+complete; zh/pa cover 8 of 22 keys and fall back to English for the rest.
 
 ## Quote bank
 272 entries (178 movie, 94 music). Movie art backfills via

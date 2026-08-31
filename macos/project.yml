@@ -4,12 +4,15 @@ options:
   deploymentTarget:
     macOS: "14.0"
   xcodeVersion: "16.0"
+  developmentLanguage: en
+  # Localizable.xcstrings only compiles the locales the project knows about.
+  knownRegions: [en, fr, zh, pa, Base]
 
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "1.0"
-    CURRENT_PROJECT_VERSION: "202608230338"
+    MARKETING_VERSION: "1.1"
+    CURRENT_PROJECT_VERSION: "202608311620"
 
 targets:
   Quotable:
@@ -22,6 +25,9 @@ targets:
       - path: ../ios/Quotable/Quote.swift
       - path: ../ios/Quotable/Theme.swift
       - path: ../ios/Quotable/ContentView.swift
+      - path: ../ios/Quotable/Sound.swift
+      - path: ../ios/Quotable/Localizable.xcstrings
+        buildPhase: resources
       - path: Quotable/QuotableApp.swift
       - path: Quotable/Resources
         buildPhase: resources

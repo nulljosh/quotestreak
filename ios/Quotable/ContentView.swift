@@ -4,13 +4,15 @@ struct ContentView: View {
     @State private var game = Game()
     @State private var genre = MenuView.allGenres
     @AppStorage("quotable_haptics_on") private var hapticsOn = true
+    @AppStorage("quotable_sfx_on") private var sfxOn = true
+    @AppStorage("quotable_sfx_vol") private var sfxVolume = 60.0
 
     var body: some View {
         NavigationStack {
             Group {
                 switch game.phase {
-                case .menu: MenuView(game: game, genre: $genre, hapticsOn: $hapticsOn)
-                case .playing: RoundView(game: game, hapticsOn: hapticsOn)
+                case .menu: MenuView(game: game, genre: $genre, hapticsOn: $hapticsOn, sfxOn: $sfxOn, sfxVolume: $sfxVolume)
+                case .playing: RoundView(game: game, hapticsOn: hapticsOn, sfxOn: sfxOn, sfxVolume: sfxVolume)
                 case .over: GameOverView(game: game)
                 }
             }
@@ -42,6 +44,8 @@ private struct MenuView: View {
     let game: Game
     @Binding var genre: String
     @Binding var hapticsOn: Bool
+    @Binding var sfxOn: Bool
+    @Binding var sfxVolume: Double
 
     var body: some View {
         VStack(spacing: 24) {
@@ -52,7 +56,7 @@ private struct MenuView: View {
                 .foregroundStyle(.secondary)
 
             Picker("Genre", selection: $genre) {
-                Text(Self.allGenres).tag(Self.allGenres)
+                Text(LocalizedStringKey(Self.allGenres)).tag(Self.allGenres)
                 ForEach(game.genres, id: \.self) { g in
                     Text(g.capitalized).tag(g)
                 }
@@ -68,9 +72,18 @@ private struct MenuView: View {
             .controlSize(.large)
             .tint(Theme.accent)
 
-            Toggle("Haptics", isOn: $hapticsOn)
-                .tint(Theme.accent)
-                .frame(maxWidth: 260)
+            VStack(spacing: 12) {
+                Toggle("Haptics", isOn: $hapticsOn)
+                Toggle("Sound effects", isOn: $sfxOn)
+                if sfxOn {
+                    // Matches the web settings panel's 0-100 volume slider.
+                    LabeledContent("Volume") {
+                        Slider(value: $sfxVolume, in: 0...100)
+                    }
+                }
+            }
+            .tint(Theme.accent)
+            .frame(maxWidth: 320)
 
             if game.highScore > 0 {
                 Text("High score: \(game.highScore)").font(.footnote).foregroundStyle(.secondary)
@@ -86,6 +99,10 @@ private struct MenuView: View {
 private struct RoundView: View {
     let game: Game
     let hapticsOn: Bool
+    let sfxOn: Bool
+    let sfxVolume: Double
+
+    @State private var flashedArt: URL?
 
     private let clock = Timer.publish(every: Game.tickInterval, on: .main, in: .common).autoconnect()
 
@@ -101,7 +118,7 @@ private struct RoundView: View {
                     .background(badge.background, in: Capsule())
                     .foregroundStyle(badge.foreground)
 
-                Text(quote.prompt).font(.subheadline.bold()).foregroundStyle(.secondary)
+                Text(LocalizedStringKey(quote.prompt)).font(.subheadline.bold()).foregroundStyle(.secondary)
 
                 Text("\u{201C}\(quote.quote)\u{201D}")
                     .font(.title2.italic())
@@ -127,7 +144,7 @@ private struct RoundView: View {
                 }
 
                 if let correct = game.lastWasCorrect {
-                    Text(correct ? "Correct!" : "Nope — it was \u{201C}\(quote.answer)\u{201D}")
+                    Text(correct ? "Correct! +\(game.lastPoints)" : "Nope — it was \u{201C}\(quote.answer)\u{201D}")
                         .font(.headline)
                         .foregroundStyle(correct ? .green : .red)
                 }
@@ -139,8 +156,22 @@ private struct RoundView: View {
         .sensoryFeedback(.success, trigger: game.lastWasCorrect) { _, new in hapticsOn && new == true }
         .sensoryFeedback(.error, trigger: game.lastWasCorrect) { _, new in hapticsOn && new == false }
         .onReceive(clock) { _ in
-            if game.tick() { advanceAfterDelay() }
+            if game.tick() {
+                react(correct: false)
+                advanceAfterDelay()
+            }
         }
+        .overlay { ArtFlash(url: flashedArt) }
+    }
+
+    /// game.js flashes the movie poster / album art on a correct answer, then fades it out.
+    private func react(correct: Bool) {
+        if sfxOn {
+            correct ? Sound.correct(volume: sfxVolume / 100) : Sound.wrong(volume: sfxVolume / 100)
+        }
+        guard correct, let art = game.current?.art else { return }
+        flashedArt = art
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) { flashedArt = nil }
     }
 
     private func tint(for option: String, answer: String) -> Color {
@@ -157,7 +188,7 @@ private struct RoundView: View {
     }
 
     private func answer(_ option: String) {
-        game.choose(option)
+        react(correct: game.choose(option))
         advanceAfterDelay()
     }
 
@@ -165,6 +196,25 @@ private struct RoundView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
             guard game.phase == .playing else { return }
             game.nextQuestion()
+        }
+    }
+}
+
+private struct ArtFlash: View {
+    let url: URL?
+
+    var body: some View {
+        if let url {
+            AsyncImage(url: url) { image in
+                image.resizable().scaledToFit()
+            } placeholder: {
+                Color.clear
+            }
+            .frame(maxWidth: 260, maxHeight: 260)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .shadow(radius: 20)
+            .transition(.opacity)
+            .allowsHitTesting(false)
         }
     }
 }
@@ -192,13 +242,12 @@ private struct GameOverView: View {
         VStack(spacing: 20) {
             Spacer()
             Text("Game Over").font(.largeTitle.bold())
-            Text("Final score: \(game.score)").font(.title3)
-            Text("High score: \(game.highScore)").font(.subheadline).foregroundStyle(.secondary)
+            Text("Final score: \(game.score) · High score: \(game.highScore)").font(.title3)
             Button("Play Again") { game.backToMenu() }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
                 .tint(Theme.accent)
-            ShareLink(item: "I scored \(game.score) on Quotestreak! Can you beat me? https://nulljosh.github.io/quotable")
+            ShareLink(item: "I scored \(game.score) on Quotestreak! Can you beat me? https://quotable.heyitsmejosh.com")
             Spacer()
         }
         .padding(28)

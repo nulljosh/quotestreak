@@ -2,7 +2,7 @@
   "_meta": {
     "sourceLanguage": "en",
     "locales": ["en", "fr", "zh", "pa"],
-    "note": "Master string source. Keys ARE the literal English UI text. {n}/{s} are simple placeholder tokens substituted by locales.js's t(key, vars) -- no ICU/plurals. Same convention as talli/i18n/strings.json. iOS/macOS ship the same web bundle (WKWebView) so this single source covers all three targets."
+    "note": "Master string source. Keys ARE the literal English UI text. {n}/{s} are simple placeholder tokens substituted by locales.js's t(key, vars) -- no ICU/plurals. Same convention as talli/i18n/strings.json. The same source generates locales/*.json for the web and Localizable.xcstrings for the native iOS/macOS apps."
   },
   "Settings": { "en": "Settings", "fr": "Paramètres", "zh": "设置", "pa": "ਸੈਟਿੰਗਾਂ" },
   "Sound effects": { "en": "Sound effects", "fr": "Effets sonores", "zh": "", "pa": "" },
@@ -22,5 +22,8 @@
   "Streak: {n}": { "en": "Streak: {n}", "fr": "Série : {n}", "zh": "", "pa": "" },
   "Correct! +{n}": { "en": "Correct! +{n}", "fr": "Correct ! +{n}", "zh": "", "pa": "" },
   "Nope — it was \"{s}\"": { "en": "Nope — it was \"{s}\"", "fr": "Non — c'était « {s} »", "zh": "", "pa": "" },
+  "Haptics": { "en": "Haptics", "fr": "Retour haptique", "zh": "", "pa": "" },
+  "High score: {n}": { "en": "High score: {n}", "fr": "Meilleur score : {n}", "zh": "", "pa": "" },
+  "Quotestreak": { "en": "Quotestreak", "fr": "Quotestreak", "zh": "Quotestreak", "pa": "Quotestreak" },
   "Final score: {n1} · High score: {n2}": { "en": "Final score: {n1} · High score: {n2}", "fr": "Score final : {n1} · Meilleur score : {n2}", "zh": "", "pa": "" }
 }
