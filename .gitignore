@@ -4,3 +4,4 @@
 .asc/artifacts/
 .DS_Store
 .asc/web-review/
+dist/
