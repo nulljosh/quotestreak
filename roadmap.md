@@ -41,3 +41,11 @@ See `docs/API.md` for the full tool table, linked from the README.
 ## From Apple Notes (imported 2026-08-27)
 - [ ] Quotestreak iOS 1.0 and macOS 1.0 both APPROVED and live (id6804394619) as of Aug 23 2026.
 - [ ] Add dad's idea and expand/extrapolate on it (ask Joshua to restate the idea).
+
+## /api + /mcp blocked on hosting
+
+Cannot ship Cloudflare Pages Functions here: quotable.heyitsmejosh.com serves from GitHub
+Pages (`server: GitHub.com`), and there is no `quotestreak` Cloudflare Pages project. The
+`random_quote` / `list_tags` pair is ready to write against quotes.json the moment the site
+moves to Pages — see conway (2026-08-31) for the template. Migrating hosting is the
+prerequisite, not the endpoint work.
