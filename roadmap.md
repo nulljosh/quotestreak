@@ -51,4 +51,17 @@ moves to Pages — see conway (2026-08-31) for the template. Migrating hosting i
 prerequisite, not the endpoint work.
 # Roadmap
 
-- [ ] /api + /mcp endpoints: blocked — hosted on GitHub Pages, no Functions runtime. Move to Cloudflare Pages/Workers first.
+## /api + /mcp surface — SHIPPED 2026-08-31
+
+Live at `quotable.heyitsmejosh.com/api` and `/mcp`. Tools: `list_genres`, `random_quote`,
+`search_quotes`, all reading `quotes.json` out of the bundle. Both surfaces call `callTool()`
+in `src/lib/tools.js`. Check: `node src/lib/tools.test.mjs`.
+
+The blocker was the host, not the code: the site was on GitHub Pages, which runs no
+Functions. It now lives on the Cloudflare Pages project `quotestreak`,
+quotable.heyitsmejosh.com repointed, and GitHub Pages plus its deploy workflow are gone so
+there is exactly one live site. Deploy with `sh scripts/build-site.sh && npx wrangler pages
+deploy` from the repo root — wrangler needs the root for `functions/`, and `dist/` is the
+web subset (the repo root also holds ios/, macos/, metadata/).
+
+Pages serves extensionless URLs, so `/play.html` now 308s to `/play`. Old links still work.
