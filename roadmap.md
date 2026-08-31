@@ -5,7 +5,8 @@
 slider, the album/poster art flash on a correct answer, the points earned in the feedback line,
 the four locales, and the correct share URL (it pointed at the dead github.io page).
 
-Both iOS and macOS v1.0 are **WAITING_FOR_REVIEW** on the shared Universal Purchase record 6804394619.
+v1.0 is **READY_FOR_SALE** on both platforms. v1.1 (the web-parity release) is **WAITING_FOR_REVIEW** on both,
+submitted 2026-08-31 on the shared Universal Purchase record 6804394619.
 Blockers solved: generated full ICNS appiconset with 512pt@2x (Mac App Store requirement exceeds iOS),
 captured macOS screenshots via CGWindowListCopyWindowInfo window ID lookup (no AppleScript
 System Events). Both submitted 2026-08-23 (iOS build 202608230326, macOS build 202608230338).
