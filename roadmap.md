@@ -49,3 +49,6 @@ Pages (`server: GitHub.com`), and there is no `quotestreak` Cloudflare Pages pro
 `random_quote` / `list_tags` pair is ready to write against quotes.json the moment the site
 moves to Pages — see conway (2026-08-31) for the template. Migrating hosting is the
 prerequisite, not the endpoint work.
+# Roadmap
+
+- [ ] /api + /mcp endpoints: blocked — hosted on GitHub Pages, no Functions runtime. Move to Cloudflare Pages/Workers first.
