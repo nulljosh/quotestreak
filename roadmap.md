@@ -5,8 +5,14 @@
 slider, the album/poster art flash on a correct answer, the points earned in the feedback line,
 the four locales, and the correct share URL (it pointed at the dead github.io page).
 
-v1.0 is **READY_FOR_SALE** on both platforms. v1.1 (the web-parity release) is **WAITING_FOR_REVIEW** on both,
-submitted 2026-08-31 on the shared Universal Purchase record 6804394619.
+v1.0 is **READY_FOR_SALE** on both platforms. v1.1 (the web-parity release) was submitted
+2026-08-31 on the shared Universal Purchase record 6804394619; **macOS is APPROVED** (review
+completed 2026-09-01, submission 47cc07eb-4fec-46e6-aac0-658d45e49ffc), iOS still in review.
+
+The art-flash reliability fixes are **not in the 1.1 builds** — they land in 1.2. In 1.1 the
+flash often does not appear: the native `ArtFlash` only started its fetch once the answer was
+picked, giving it under a second to pull a full-size poster, and back-to-back correct answers
+let the previous dismiss timer cancel the new flash. Both are fixed on the branch, unbuilt.
 Blockers solved: generated full ICNS appiconset with 512pt@2x (Mac App Store requirement exceeds iOS),
 captured macOS screenshots via CGWindowListCopyWindowInfo window ID lookup (no AppleScript
 System Events). Both submitted 2026-08-23 (iOS build 202608230326, macOS build 202608230338).
@@ -19,7 +25,12 @@ complete; zh/pa cover 8 of 22 keys and fall back to English for the rest.
 ## Quote bank
 272 entries (178 movie, 94 music). Movie art backfills via
 `TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs`; music `art` uses iTunes Search URLs. `art` is
-optional — `game.js` no-ops when absent and the iOS app never uses it.
+optional — both `game.js` and the native `ArtFlash` no-op when absent, which is exactly the
+problem: 48 entries (45 music, 3 movie) have no `art`, so ~18% of correct answers flash nothing.
+Close that with `node scripts/fetch-itunes-art.mjs` (music, no API key) and a re-run of
+`fetch-tmdb-art.mjs` (the 3 stragglers are TV series, and the script now falls through to
+TMDB's /search/tv, which is why /search/movie never matched them). Both need network, so
+neither runs in a Claude Code web session.
 
 Remaining gaps from the original dad-pass note: spaghetti westerns beyond The Good, the Bad and
 the Ugly; more Merle Haggard / Waylon Jennings on the country side.
