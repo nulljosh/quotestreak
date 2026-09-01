@@ -151,6 +151,7 @@ function nextQuestion() {
     btn.onclick = () => choose(opt, btn);
     optionsEl.appendChild(btn);
   });
+  preloadArt(current.art);
   if (speedMode) startTimer();
 }
 
@@ -182,7 +183,7 @@ function choose(opt, btn) {
     b.disabled = true;
   });
   if (correct) {
-    flashArt();
+    flashArt(current.art);
     streak++;
     const bonus = speedMode ? Math.max(1, Math.ceil(timeLeft)) : 1;
     score += 10 * bonus;
@@ -197,21 +198,43 @@ function choose(opt, btn) {
   setTimeout(nextQuestion, 1100);
 }
 
+// Full-size art is fetched as soon as the question is shown, so a correct answer flashes
+// it instantly instead of racing a cold network fetch against the 1100ms round timer.
+const artCache = new Map();
+function preloadArt(url) {
+  if (!url || artCache.has(url)) return;
+  const img = new Image();
+  img.referrerPolicy = 'no-referrer';
+  artCache.set(url, img);
+  img.src = url;
+}
+
 let artEl = null;
-function flashArt() {
-  if (!current.art) return;
+let artHideTimer = null;
+function flashArt(url) {
+  if (!url) return;
   if (!artEl) {
     artEl = document.createElement('div');
     artEl.id = 'art-flash';
     document.body.appendChild(artEl);
   }
-  const img = new Image();
-  img.onload = () => {
-    artEl.style.backgroundImage = `url("${current.art}")`;
+  const show = () => {
+    // Back-to-back correct answers: kill the previous hide so it can't cut this one short.
+    clearTimeout(artHideTimer);
+    artEl.style.backgroundImage = `url("${url}")`;
     artEl.classList.add('show');
-    setTimeout(() => artEl.classList.remove('show'), 950);
+    artHideTimer = setTimeout(() => artEl.classList.remove('show'), 950);
   };
-  img.src = current.art;
+  const cached = artCache.get(url);
+  if (cached && cached.complete && cached.naturalWidth) return show();
+  // Still in flight. Show it when it lands, but only if this question is still on screen —
+  // otherwise it flashes the previous round's art over the next quote. A failed load is a
+  // no-op rather than a stuck overlay.
+  const asked = current;
+  const img = new Image();
+  img.referrerPolicy = 'no-referrer';
+  img.onload = () => { if (current === asked) show(); };
+  img.src = url;
 }
 
 function updateStats() {
