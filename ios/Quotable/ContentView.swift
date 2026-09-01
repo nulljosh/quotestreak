@@ -1,3 +1,6 @@
+import CoreGraphics
+import ImageIO
+import Observation
 import SwiftUI
 
 struct ContentView: View {
@@ -103,6 +106,8 @@ private struct RoundView: View {
     let sfxVolume: Double
 
     @State private var flashedArt: URL?
+    @State private var flashToken = 0
+    @State private var art = ArtLoader()
 
     private let clock = Timer.publish(every: Game.tickInterval, on: .main, in: .common).autoconnect()
 
@@ -161,7 +166,9 @@ private struct RoundView: View {
                 advanceAfterDelay()
             }
         }
-        .overlay { ArtFlash(url: flashedArt) }
+        .overlay { ArtFlash(url: flashedArt, cached: art.image(for: flashedArt)) }
+        .onChange(of: game.current) { _, quote in art.prefetch(quote?.art) }
+        .onAppear { art.prefetch(game.current?.art) }
     }
 
     /// game.js flashes the movie poster / album art on a correct answer, then fades it out.
@@ -169,9 +176,15 @@ private struct RoundView: View {
         if sfxOn {
             correct ? Sound.correct(volume: sfxVolume / 100) : Sound.wrong(volume: sfxVolume / 100)
         }
-        guard correct, let art = game.current?.art else { return }
-        flashedArt = art
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) { flashedArt = nil }
+        guard correct, let url = game.current?.art else { return }
+        flashedArt = url
+        // Back-to-back correct answers: the previous dismiss is still pending and would
+        // cut this flash short, so only the newest one is allowed to clear it.
+        flashToken += 1
+        let token = flashToken
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.95) {
+            if flashToken == token { flashedArt = nil }
+        }
     }
 
     private func tint(for option: String, answer: String) -> Color {
@@ -202,13 +215,22 @@ private struct RoundView: View {
 
 private struct ArtFlash: View {
     let url: URL?
+    let cached: Image?
 
     var body: some View {
         if let url {
-            AsyncImage(url: url) { image in
-                image.resizable().scaledToFit()
-            } placeholder: {
-                Color.clear
+            Group {
+                if let cached {
+                    cached.resizable().scaledToFit()
+                } else {
+                    // Only reached if the prefetch has not landed yet; AsyncImage has the
+                    // rest of the 0.95s reveal to catch up.
+                    AsyncImage(url: url) { image in
+                        image.resizable().scaledToFit()
+                    } placeholder: {
+                        Color.clear
+                    }
+                }
             }
             .frame(maxWidth: 260, maxHeight: 260)
             .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -276,5 +298,41 @@ private struct SeededGenerator: RandomNumberGenerator {
         state ^= state >> 7
         state ^= state << 17
         return state
+    }
+}
+
+/// Artwork is fetched as soon as a question appears, so a correct answer can flash it
+/// immediately rather than racing AsyncImage against the 0.95s reveal — the same reason
+/// game.js preloads it in nextQuestion(). Decoded via ImageIO so one implementation
+/// serves both iOS and macOS without a UIImage/NSImage branch.
+@Observable
+final class ArtLoader {
+    private var cache: [URL: Image] = [:]
+    private var inFlight: Set<URL> = []
+
+    func image(for url: URL?) -> Image? {
+        guard let url else { return nil }
+        return cache[url]
+    }
+
+    func prefetch(_ url: URL?) {
+        guard let url, cache[url] == nil, !inFlight.contains(url) else { return }
+        inFlight.insert(url)
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+            let image = data.flatMap(Self.decode)
+            DispatchQueue.main.async {
+                guard let self else { return }
+                self.inFlight.remove(url)
+                // A failed load stays uncached: the flash falls back to AsyncImage and,
+                // failing that, simply does not appear.
+                if let image { self.cache[url] = image }
+            }
+        }.resume()
+    }
+
+    private static func decode(_ data: Data) -> Image? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil),
+              let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
+        return Image(decorative: cgImage, scale: 1)
     }
 }
