@@ -1,5 +1,18 @@
 # Quotable Roadmap
 
+## TODO — next time you are at a real Mac
+
+Left over from the 2026-09-01 art-flash fix. None of it can run in a Claude Code web
+session (no Swift toolchain; TMDB/iTunes/mzstatic are refused by the egress policy).
+
+- [ ] `node scripts/fetch-itunes-art.mjs` — fills the 45 music entries with no art.
+- [ ] `TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs` — the 3 remaining movie-side
+      gaps are TV series; the script now falls through to /search/tv.
+- [ ] `node scripts/check-art.mjs` — confirm nothing 404s.
+- [ ] Copy `quotes.json` to `ios/Quotable/Resources/quotes.json`. It does not sync itself.
+- [ ] Build iOS + macOS. `ArtLoader` in `ContentView.swift` has never been compiled.
+- [ ] Ship as 1.2: `asc workflow run ship-ios VERSION:1.2.0`.
+
 ## App Store status
 1.1 (2026-08-31) brings the native apps to parity with the web game: sound effects with a volume
 slider, the album/poster art flash on a correct answer, the points earned in the feedback line,
