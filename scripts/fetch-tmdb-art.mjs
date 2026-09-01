@@ -14,14 +14,23 @@ if (!key) {
 const path = new URL('../quotes.json', import.meta.url);
 const quotes = JSON.parse(readFileSync(path, 'utf8'));
 
-for (const q of quotes) {
-  if (q.type !== 'movie' || q.art) continue;
-  const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(q.answer)}&year=${q.year}&api_key=${key}`;
+// The bank calls everything that is not music a "movie", but some entries are TV series
+// (Game of Thrones, Star Trek, Rick and Morty), and /search/movie never matches those —
+// which is why they sat without art. Fall through to /search/tv before giving up.
+async function poster(query, year, endpoint) {
+  const dateParam = endpoint === 'tv' ? 'first_air_date_year' : 'year';
+  const url = `https://api.themoviedb.org/3/search/${endpoint}`
+    + `?query=${encodeURIComponent(query)}&${dateParam}=${year}&api_key=${key}`;
   const res = await fetch(url);
   const data = await res.json();
-  const hit = data.results?.[0];
-  if (hit?.poster_path) {
-    q.art = `https://image.tmdb.org/t/p/w500${hit.poster_path}`;
+  return data.results?.[0]?.poster_path;
+}
+
+for (const q of quotes) {
+  if (q.type !== 'movie' || q.art) continue;
+  const posterPath = (await poster(q.answer, q.year, 'movie')) || (await poster(q.answer, q.year, 'tv'));
+  if (posterPath) {
+    q.art = `https://image.tmdb.org/t/p/w500${posterPath}`;
     console.log('found', q.answer);
   } else {
     console.warn('no match', q.answer, q.year);
