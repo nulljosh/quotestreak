@@ -20,6 +20,7 @@ struct ContentView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background { Backdrop(quotes: game.quotes).ignoresSafeArea() }
             .background(Theme.canvas)
             .navigationTitle("Quotestreak")
             #if os(iOS)
@@ -276,10 +277,10 @@ private struct GameOverView: View {
     }
 }
 
-private extension Array where Element == String {
+private extension Array {
     /// Shuffle once per question rather than on every SwiftUI body evaluation,
     /// which would reorder the buttons under the user's finger.
-    func shuffledStably(seed: String) -> [String] {
+    func shuffledStably(seed: String) -> [Element] {
         var generator = SeededGenerator(seed: seed)
         return shuffled(using: &generator)
     }
@@ -334,5 +335,56 @@ final class ArtLoader {
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
               let cgImage = CGImageSourceCreateImageAtIndex(source, 0, nil) else { return nil }
         return Image(decorative: cgImage, scale: 1)
+    }
+}
+
+/// Port of the web `#backdrop`: a static poster/album mosaic at low opacity behind
+/// the whole game. Static on purpose — the speed round is a timed attention task.
+private struct Backdrop: View {
+    let quotes: [Quote]
+    @Environment(\.colorScheme) private var scheme
+
+    private struct Tile: Identifiable {
+        let id: URL
+        let square: Bool
+    }
+
+    /// Thumbnails, not the w500 art the flash uses; deduped; shuffled once per launch.
+    private var tiles: [Tile] {
+        var seen = Set<URL>()
+        return quotes.compactMap { q -> Tile? in
+            guard let art = q.art, seen.insert(art).inserted else { return nil }
+            let thumb = art.absoluteString
+                .replacingOccurrences(of: "/w500/", with: "/w185/")
+                .replacingOccurrences(of: "/600x600bb.jpg", with: "/200x200bb.jpg")
+            return Tile(id: URL(string: thumb) ?? art, square: q.type == .music)
+        }
+    }
+
+    var body: some View {
+        let all = tiles
+        GeometryReader { geo in
+            let cols = max(3, Int((geo.size.width / 110).rounded(.up)))
+            let per = Int((geo.size.height / 140).rounded(.up)) + 1
+            if all.count >= 8 {
+                let shuffled = all.shuffledStably(seed: "backdrop")
+                HStack(alignment: .top, spacing: 8) {
+                    ForEach(0..<cols, id: \.self) { c in
+                        VStack(spacing: 8) {
+                            ForEach(0..<per, id: \.self) { r in
+                                let t = shuffled[(c * per + r) % shuffled.count]
+                                AsyncImage(url: t.id) { $0.resizable().scaledToFill() } placeholder: { Color.clear }
+                                    .aspectRatio(t.square ? 1 : 2 / 3, contentMode: .fit)
+                                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                            }
+                        }
+                    }
+                }
+                .padding(8)
+                .opacity(scheme == .dark ? 0.22 : 0.14)
+            }
+        }
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
     }
 }
