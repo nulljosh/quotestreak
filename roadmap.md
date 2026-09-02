@@ -5,7 +5,7 @@
 Left over from the 2026-09-01 art-flash fix. None of it can run in a Claude Code web
 session (no Swift toolchain; TMDB/iTunes/mzstatic are refused by the egress policy).
 
-- [ ] `node scripts/fetch-itunes-art.mjs`, fills the 45 music entries with no art.
+- [x] (2026-09-02: 37 filled, 8 unmatched on iTunes Search, check-art clean) `node scripts/fetch-itunes-art.mjs`, fills the 45 music entries with no art.
 - [ ] `TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs`, the 3 remaining movie-side
       gaps are TV series; the script now falls through to /search/tv.
 - [ ] `node scripts/check-art.mjs`, confirm nothing 404s.
