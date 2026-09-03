@@ -1,5 +1,13 @@
 # Quotable Roadmap
 
+- [ ] Verify iPad layout visually on simulator -- 2026-09-02. `TARGETED_DEVICE_FAMILY = "1,2"`
+  already set; iOS `ContentView` uses `NavigationStack` with flexible frames throughout
+  (only card/button-level fixed widths, not page-level), so it should scale reasonably, but
+  nobody has actually seen it on an iPad screen. This machine's Xcode only has the iOS 26.5
+  SDK with the iOS 26.2 runtime downloaded, so `xcodebuild` won't recognize any simulator
+  destination even by explicit UDID -- needs the matching platform component installed,
+  then a screenshot check (menu, round, game-over, speed-round clock).
+
 ## TODO, next time you are at a real Mac
 
 Left over from the 2026-09-01 art-flash fix. None of it can run in a Claude Code web
