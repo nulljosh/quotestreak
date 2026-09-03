@@ -33,13 +33,14 @@ $('auth-signup').onclick = async () => {
   const { error } = await sb.auth.signUp({
     email: $('auth-email').value,
     password: $('auth-pass').value,
-    options: { data: { name: $('auth-name').value.trim().slice(0, 24) || undefined }, emailRedirectTo: location.origin + '/play.html' },
+    options: { data: { name: $('auth-name').value.trim().slice(0, 24) || undefined }, emailRedirectTo: location.origin + '/play' },
   });
   msg(error ? error.message : 'Check your email to confirm your account.');
 };
 $('auth-google').onclick = () =>
-  sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/play.html' } });
-// ponytail: no Apple button on web. Web Apple OAuth needs a Services ID + .p8-signed secret on the spark project (authorize returns 400 today). Native iOS/macOS use signInWithIdToken and are enabled.
+  sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/play' } });
+$('auth-apple').onclick = () =>
+  sb.auth.signInWithOAuth({ provider: 'apple', options: { redirectTo: location.origin + '/play' } });
 $('auth-logout').onclick = () => sb.auth.signOut();
 
 // Called by game.js at game over. Silently no-ops when signed out.
