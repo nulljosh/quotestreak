@@ -111,7 +111,8 @@ from `game.js` at game over.
 
 - [ ] Apple sign-in on WEB: needs a Services ID + .p8-signed secret on spark (authorize returns 400).
       Blocked on Joshua (Apple Developer portal). Runbook in ~/Documents/Code/roadmap.md "Apple sign-in on WEB".
-- [ ] Native iOS/macOS: Sign in with Apple via `signInWithIdToken` (provider already enabled for
-      `com.heyitsmejosh.quotable` + `.mac`, no .p8 needed), then POST scores to the same table and show
-      the leaderboard. Apps are offline-only today; this is the first network code.
+- [x] Native iOS/macOS 2026-09-02: `Account.swift` (Sign in with Apple id_token grant, score POST,
+      leaderboard GET over URLSession) + `AccountViews.swift`; toolbar buttons in ContentView; APPLE_ID_AUTH
+      capability on bundle YDHCC4J3S2; entitlements updated. Builds clean, unsigned. Untested on device.
+      Ship as 1.3 once the art-flash TODOs above are done.
 - [ ] Scores are client-reported; no anti-cheat. Add a server-side check only if the board gets gamed.

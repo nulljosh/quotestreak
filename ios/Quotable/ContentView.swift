@@ -9,6 +9,8 @@ struct ContentView: View {
     @AppStorage("quotable_haptics_on") private var hapticsOn = true
     @AppStorage("quotable_sfx_on") private var sfxOn = true
     @AppStorage("quotable_sfx_vol") private var sfxVolume = 60.0
+    @State private var showAccount = false
+    @State private var showBoard = false
 
     var body: some View {
         NavigationStack {
@@ -26,7 +28,17 @@ struct ContentView: View {
             #if os(iOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
+            .sheet(isPresented: $showAccount) { AccountSheet() }
+            .sheet(isPresented: $showBoard) { LeaderboardSheet(speed: game.speedMode) }
             .toolbar {
+                if game.phase != .playing {
+                    ToolbarItem(placement: .primaryAction) {
+                        Button { showBoard = true } label: { Label("Leaderboard", systemImage: "list.number") }
+                    }
+                    ToolbarItem(placement: .primaryAction) {
+                        Button { showAccount = true } label: { Label("Account", systemImage: "person.crop.circle") }
+                    }
+                }
                 if game.phase == .playing {
                     ToolbarItem(placement: .primaryAction) {
                         Text("\(game.score)").monospacedDigit().foregroundStyle(Theme.accent).bold()
@@ -276,6 +288,7 @@ private struct GameOverView: View {
             Spacer()
         }
         .padding(28)
+        .task { await Account.shared.submit(score: game.score, speed: game.speedMode) }
     }
 }
 
