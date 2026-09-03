@@ -36,6 +36,15 @@ Open `http://localhost:8000`.
 - `quotes.json`: the bank. `type: movie|music`, `genre`, `quote`, `answer`, `options`
 - `ios/`: native SwiftUI, on the App Store as **Quotestreak**
 - `macos/`: native SwiftUI on the same sources. Built, not yet submitted
+- `watchos/`: standalone Apple Watch companion (`WKWatchOnly`). Shows high score, last round's score/streak, and whether a round is in progress, read from a shared App Group container the iOS app writes to on every score change — there's no backend to call, so this is the whole sync path
+
+## Platforms
+
+| Platform | Dir | Bundle ID |
+|---|---|---|
+| iOS | `ios/` | `com.heyitsmejosh.quotable` |
+| macOS | `macos/` | `com.heyitsmejosh.quotable.mac` |
+| watchOS | `watchos/` | `com.heyitsmejosh.quotable.watchos` |
 
 ## Roadmap
 

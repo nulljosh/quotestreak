@@ -43,6 +43,7 @@ final class Game {
         pool = filtered.shuffled()
         phase = .playing
         nextQuestion()
+        SharedStore.sync(score: score, streak: streak, highScore: highScore, phase: phase)
     }
 
     func nextQuestion() {
@@ -75,6 +76,7 @@ final class Game {
         } else {
             streak = 0
         }
+        SharedStore.sync(score: score, streak: streak, highScore: highScore, phase: phase)
         return correct
     }
 
@@ -96,6 +98,7 @@ final class Game {
             highScore = score
             UserDefaults.standard.set(score, forKey: Self.highKey)
         }
+        SharedStore.sync(score: score, streak: streak, highScore: highScore, phase: phase)
     }
 
     func backToMenu() {

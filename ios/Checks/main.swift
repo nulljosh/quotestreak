@@ -1,6 +1,6 @@
 // Quote-bank + scoring self-check. The only non-trivial logic in the app.
 //
-//   swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift ios/Checks/main.swift \
+//   swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift ios/Quotable/SharedStore.swift ios/Checks/main.swift \
 //     && /tmp/quotablecheck quotes.json
 
 import Foundation

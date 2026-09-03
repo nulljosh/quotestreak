@@ -22,6 +22,7 @@ targets:
       # Shared with iOS — Game/Quote/Theme are platform-agnostic and ContentView
       # branches on #if os(macOS). Do not fork these files.
       - path: ../ios/Quotable/Game.swift
+      - path: ../ios/Quotable/SharedStore.swift
       - path: ../ios/Quotable/Quote.swift
       - path: ../ios/Quotable/Theme.swift
       - path: ../ios/Quotable/ContentView.swift

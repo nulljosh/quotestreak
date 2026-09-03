@@ -49,7 +49,7 @@ Answer buttons deliberately use `.allowsHitTesting(false)` rather than `.disable
 Self-check (no XCTest, no framework):
 
 ```
-swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift ios/Checks/main.swift && /tmp/quotablecheck quotes.json
+swiftc -o /tmp/quotablecheck ios/Quotable/Quote.swift ios/Quotable/Game.swift ios/Quotable/SharedStore.swift ios/Checks/main.swift && /tmp/quotablecheck quotes.json
 ```
 
 It validates the whole quote bank (4 unique options, answer present, no duplicate quotes, movies have years) and the scoring paths (streaks, the speed multiplier, timeout-as-miss).
