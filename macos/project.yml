@@ -11,8 +11,8 @@ options:
 settings:
   base:
     SWIFT_VERSION: "5.9"
-    MARKETING_VERSION: "1.2"
-    CURRENT_PROJECT_VERSION: "202609021234"
+    MARKETING_VERSION: "1.2.1"
+    CURRENT_PROJECT_VERSION: "202609021935"
 
 targets:
   Quotable:
