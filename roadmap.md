@@ -103,3 +103,15 @@ web subset (the repo root also holds ios/, macos/, metadata/).
 Pages serves extensionless URLs, so `/play.html` now 308s to `/play`. Old links still work.
 
 - [ ] ship-ios workflow: export step fails on App Groups with the stale manual profile; drop --export-options and add `--xcodebuild-flag -allowProvisioningUpdates` (done by hand for 1.2.1)
+
+## Accounts + leaderboard (web live 2026-09-02)
+Supabase (shared `spark` project): table `quotestreak_scores` (RLS: anyone reads, only own inserts), view
+`quotestreak_leaderboard` (best score per user per mode). Web has email/password + Google. `auth.js`, wired
+from `game.js` at game over.
+
+- [ ] Apple sign-in on WEB: needs a Services ID + .p8-signed secret on spark (authorize returns 400).
+      Blocked on Joshua (Apple Developer portal). Runbook in ~/Documents/Code/roadmap.md "Apple sign-in on WEB".
+- [ ] Native iOS/macOS: Sign in with Apple via `signInWithIdToken` (provider already enabled for
+      `com.heyitsmejosh.quotable` + `.mac`, no .p8 needed), then POST scores to the same table and show
+      the leaderboard. Apps are offline-only today; this is the first network code.
+- [ ] Scores are client-reported; no anti-cheat. Add a server-side check only if the board gets gamed.

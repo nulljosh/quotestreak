@@ -248,7 +248,16 @@ function endGame() {
   const high = Math.max(score, parseInt(localStorage.getItem(HIGH_KEY) || '0', 10));
   localStorage.setItem(HIGH_KEY, high);
   $('final-score').textContent = `Final score: ${score} · High score: ${high}`;
+  window.quotableSubmitScore?.(score, speedMode ? 'speed' : 'normal');
 }
+
+const showLeaderboard = () => {
+  $('leaderboard').classList.remove('hidden');
+  window.quotableShowLeaderboard?.(speedMode ? 'speed' : 'normal');
+};
+$('lb-btn').onclick = showLeaderboard;
+$('lb-btn-end').onclick = showLeaderboard;
+$('lb-close').onclick = () => $('leaderboard').classList.add('hidden');
 
 $('start-normal').onclick = () => startGame(false);
 $('start-speed').onclick = () => startGame(true);
