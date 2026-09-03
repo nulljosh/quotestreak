@@ -101,3 +101,5 @@ deploy` from the repo root, wrangler needs the root for `functions/`, and `dist/
 web subset (the repo root also holds ios/, macos/, metadata/).
 
 Pages serves extensionless URLs, so `/play.html` now 308s to `/play`. Old links still work.
+
+- [ ] ship-ios workflow: export step fails on App Groups with the stale manual profile; drop --export-options and add `--xcodebuild-flag -allowProvisioningUpdates` (done by hand for 1.2.1)
