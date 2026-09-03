@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2071D5C2988CAEE90B8626D6 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC86FADC9B12722F80D8A322 /* Sound.swift */; };
+		2E29339E8EF696C8DE96D9BC /* SharedStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6F9F3D1E7095C33B65A0AC /* SharedStore.swift */; };
 		40BA3761F0315F7CCD087D7D /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 09C80DAF89F26D0C3958D4B0 /* Localizable.xcstrings */; };
 		48941AFBAABFD77F30E81011 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D0E22F1C48E3EFB7EABC97 /* Theme.swift */; };
 		508D3BE089EB84B16456089A /* QuotableApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64E85168A0A7B3C0D436D4A9 /* QuotableApp.swift */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		09C80DAF89F26D0C3958D4B0 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		0AC0BE836F69E3802264672C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1A6F9F3D1E7095C33B65A0AC /* SharedStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedStore.swift; sourceTree = "<group>"; };
 		3BFC408E6EFA84328599CCE6 /* Quote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quote.swift; sourceTree = "<group>"; };
 		43D0E22F1C48E3EFB7EABC97 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4DA15A4D922C004188104FA8 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 				09C80DAF89F26D0C3958D4B0 /* Localizable.xcstrings */,
 				64E85168A0A7B3C0D436D4A9 /* QuotableApp.swift */,
 				3BFC408E6EFA84328599CCE6 /* Quote.swift */,
+				1A6F9F3D1E7095C33B65A0AC /* SharedStore.swift */,
 				FC86FADC9B12722F80D8A322 /* Sound.swift */,
 				43D0E22F1C48E3EFB7EABC97 /* Theme.swift */,
 				25580EB1E353CAB0B03D98A3 /* Resources */,
@@ -154,6 +157,7 @@
 				B8B4BA1F10F735DE4F09A5F2 /* Game.swift in Sources */,
 				508D3BE089EB84B16456089A /* QuotableApp.swift in Sources */,
 				7DFF7D7B40A63846C0C2A765 /* Quote.swift in Sources */,
+				2E29339E8EF696C8DE96D9BC /* SharedStore.swift in Sources */,
 				2071D5C2988CAEE90B8626D6 /* Sound.swift in Sources */,
 				48941AFBAABFD77F30E81011 /* Theme.swift in Sources */,
 			);
@@ -195,7 +199,7 @@
 		"CLANG_WARN_UNREACHABLE_CODE" = YES;
 		"CLANG_WARN__DUPLICATE_METHOD_MATCH" = YES;
 		"COPY_PHASE_STRIP" = NO;
-		"CURRENT_PROJECT_VERSION" = 202609021235;
+		"CURRENT_PROJECT_VERSION" = 202609021936;
 		"DEBUG_INFORMATION_FORMAT" = dwarf;
 		"ENABLE_STRICT_OBJC_MSGSEND" = YES;
 		"ENABLE_TESTABILITY" = YES;
@@ -214,7 +218,7 @@
 		"GCC_WARN_UNUSED_FUNCTION" = YES;
 		"GCC_WARN_UNUSED_VARIABLE" = YES;
 		"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
-		"MARKETING_VERSION" = "1.2";
+		"MARKETING_VERSION" = "1.2.1";
 		"MTL_ENABLE_DEBUG_INFO" = "INCLUDE_SOURCE";
 		"MTL_FAST_MATH" = YES;
 		"ONLY_ACTIVE_ARCH" = YES;
@@ -300,7 +304,7 @@
 		"CLANG_WARN_UNREACHABLE_CODE" = YES;
 		"CLANG_WARN__DUPLICATE_METHOD_MATCH" = YES;
 		"COPY_PHASE_STRIP" = NO;
-		"CURRENT_PROJECT_VERSION" = 202609021235;
+		"CURRENT_PROJECT_VERSION" = 202609021936;
 		"DEBUG_INFORMATION_FORMAT" = "dwarf-with-dsym";
 		"ENABLE_NS_ASSERTIONS" = NO;
 		"ENABLE_STRICT_OBJC_MSGSEND" = YES;
@@ -313,7 +317,7 @@
 		"GCC_WARN_UNUSED_FUNCTION" = YES;
 		"GCC_WARN_UNUSED_VARIABLE" = YES;
 		"IPHONEOS_DEPLOYMENT_TARGET" = "17.0";
-		"MARKETING_VERSION" = "1.2";
+		"MARKETING_VERSION" = "1.2.1";
 		"MTL_ENABLE_DEBUG_INFO" = NO;
 		"MTL_FAST_MATH" = YES;
 		"PRODUCT_NAME" = "$(TARGET_NAME)";
