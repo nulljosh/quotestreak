@@ -9,4 +9,6 @@ cp index.html play.html privacy.html style.css game.js i18n.js webmcp.js sw.js \
    manifest.webmanifest quotes.json vibe.json icon.svg icon-192.png icon-512.png \
    icon-512-maskable.png architecture.svg dist/
 cp -R locales dist/
+mkdir -p dist/screenshots
+cp -R screenshots/web dist/screenshots/
 echo "built dist/"

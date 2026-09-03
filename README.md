@@ -10,6 +10,17 @@ Multiple choice, or a 10-second speed round that pays more the faster you answer
 
 Dad's idea.
 
+## Screenshots
+
+<p>
+<img src="screenshots/web/01-landing.jpg" width="49%">
+<img src="screenshots/web/02-menu.jpg" width="49%">
+</p>
+<p>
+<img src="screenshots/web/03-question.jpg" width="49%">
+<img src="screenshots/web/04-speed-round.jpg" width="49%">
+</p>
+
 ## Run
 
 ```
