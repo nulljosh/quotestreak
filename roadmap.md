@@ -1,5 +1,8 @@
 # Quotable Roadmap
 
+- [x] Accounts and leaderboard (2026-09-02): web (email/password + Google + Sign in with Apple), iOS/macOS (Sign in with Apple). Backend tables quotestreak_scores + view quotestreak_leaderboard. Web deployed, native builds passing (ships in 1.3).
+- [x] Web sign-in setup (2026-09-02): created Apple Services ID com.heyitsmejosh.websignin (key RYV8DK7S9J), wrote apple-web-secret.sh to auto-rotate 6-month ES256 secret. Expires 2027-03-01. Litigate, Lexly, Bookrank still need Apple buttons re-added.
+
 - [ ] Verify iPad layout visually on simulator -- 2026-09-02. `TARGETED_DEVICE_FAMILY = "1,2"`
   already set; iOS `ContentView` uses `NavigationStack` with flexible frames throughout
   (only card/button-level fixed widths, not page-level), so it should scale reasonably, but
