@@ -167,12 +167,12 @@ private struct RoundView: View {
                 advanceAfterDelay()
             }
         }
-        .overlay { ArtFlash(url: flashedArt, cached: art.image(for: flashedArt)) }
+        .background { ArtFlash(url: flashedArt, cached: art.image(for: flashedArt)).ignoresSafeArea().animation(.easeInOut(duration: 0.25), value: flashedArt) }
         .onChange(of: game.current) { _, quote in art.prefetch(quote?.art) }
         .onAppear { art.prefetch(game.current?.art) }
     }
 
-    /// game.js flashes the movie poster / album art on a correct answer, then fades it out.
+    /// game.js fades the movie poster / album art in as the background on a correct answer.
     private func react(correct: Bool) {
         if sfxOn {
             correct ? Sound.correct(volume: sfxVolume / 100) : Sound.wrong(volume: sfxVolume / 100)
@@ -218,24 +218,26 @@ private struct ArtFlash: View {
     let url: URL?
     let cached: Image?
 
+    // Port of the web `#art-flash`: full-bleed cover at 0.35 opacity behind the content,
+    // faded in and out, never a floating card.
     var body: some View {
         if let url {
             Group {
                 if let cached {
-                    cached.resizable().scaledToFit()
+                    cached.resizable().scaledToFill()
                 } else {
                     // Only reached if the prefetch has not landed yet; AsyncImage has the
                     // rest of the 0.95s reveal to catch up.
                     AsyncImage(url: url) { image in
-                        image.resizable().scaledToFit()
+                        image.resizable().scaledToFill()
                     } placeholder: {
                         Color.clear
                     }
                 }
             }
-            .frame(maxWidth: 260, maxHeight: 260)
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(radius: 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .clipped()
+            .opacity(0.35)
             .transition(.opacity)
             .allowsHitTesting(false)
         }
