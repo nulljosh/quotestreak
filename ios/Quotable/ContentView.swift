@@ -11,12 +11,13 @@ struct ContentView: View {
     @AppStorage("quotable_sfx_vol") private var sfxVolume = 60.0
     @State private var showAccount = false
     @State private var showBoard = false
+    @State private var showSettings = false
 
     var body: some View {
         NavigationStack {
             Group {
                 switch game.phase {
-                case .menu: MenuView(game: game, genre: $genre, hapticsOn: $hapticsOn, sfxOn: $sfxOn, sfxVolume: $sfxVolume)
+                case .menu: MenuView(game: game, genre: $genre)
                 case .playing: RoundView(game: game, hapticsOn: hapticsOn, sfxOn: sfxOn, sfxVolume: sfxVolume)
                 case .over: GameOverView(game: game)
                 }
@@ -30,6 +31,7 @@ struct ContentView: View {
             #endif
             .sheet(isPresented: $showAccount) { AccountSheet() }
             .sheet(isPresented: $showBoard) { LeaderboardSheet(speed: game.speedMode) }
+            .sheet(isPresented: $showSettings) { SettingsSheet(hapticsOn: $hapticsOn, sfxOn: $sfxOn, sfxVolume: $sfxVolume) }
             .toolbar {
                 if game.phase != .playing {
                     ToolbarItem(placement: .primaryAction) {
@@ -37,6 +39,9 @@ struct ContentView: View {
                     }
                     ToolbarItem(placement: .primaryAction) {
                         Button { showAccount = true } label: { Label("Account", systemImage: "person.crop.circle") }
+                    }
+                    ToolbarItem(placement: .primaryAction) {
+                        Button { showSettings = true } label: { Label("Settings", systemImage: "gearshape") }
                     }
                 }
                 if game.phase == .playing {
@@ -59,9 +64,6 @@ private struct MenuView: View {
 
     let game: Game
     @Binding var genre: String
-    @Binding var hapticsOn: Bool
-    @Binding var sfxOn: Bool
-    @Binding var sfxVolume: Double
 
     var body: some View {
         VStack(spacing: 24) {
@@ -88,19 +90,6 @@ private struct MenuView: View {
             .controlSize(.large)
             .tint(Theme.accent)
 
-            VStack(spacing: 12) {
-                Toggle("Haptics", isOn: $hapticsOn)
-                Toggle("Sound effects", isOn: $sfxOn)
-                if sfxOn {
-                    // Matches the web settings panel's 0-100 volume slider.
-                    LabeledContent("Volume") {
-                        Slider(value: $sfxVolume, in: 0...100)
-                    }
-                }
-            }
-            .tint(Theme.accent)
-            .frame(maxWidth: 320)
-
             if game.highScore > 0 {
                 Text("High score: \(game.highScore)").font(.footnote).foregroundStyle(.secondary)
             }
@@ -110,6 +99,37 @@ private struct MenuView: View {
     }
 
     private var selectedGenre: String? { genre == Self.allGenres ? nil : genre }
+}
+
+private struct SettingsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Binding var hapticsOn: Bool
+    @Binding var sfxOn: Bool
+    @Binding var sfxVolume: Double
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Toggle("Haptics", isOn: $hapticsOn)
+                Toggle("Sound effects", isOn: $sfxOn)
+                if sfxOn {
+                    LabeledContent("Volume") {
+                        Slider(value: $sfxVolume, in: 0...100)
+                    }
+                }
+            }
+            .tint(Theme.accent)
+            .navigationTitle("Settings")
+            #if os(iOS)
+            .navigationBarTitleDisplayMode(.inline)
+            #endif
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Done") { dismiss() }
+                }
+            }
+        }
+    }
 }
 
 private struct RoundView: View {
