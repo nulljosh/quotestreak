@@ -1,8 +1,5 @@
 # Quotable Roadmap
 
-- [x] Accounts and leaderboard (2026-09-02): web (email/password + Google + Sign in with Apple), iOS/macOS (Sign in with Apple). Backend tables quotestreak_scores + view quotestreak_leaderboard. Web deployed, native builds passing (ships in 1.3).
-- [x] Web sign-in setup (2026-09-02): created Apple Services ID com.heyitsmejosh.websignin (key RYV8DK7S9J), wrote apple-web-secret.sh to auto-rotate 6-month ES256 secret. Expires 2027-03-01. Litigate, Lexly, Bookrank still need Apple buttons re-added.
-
 - [ ] Verify iPad layout visually on simulator -- 2026-09-02. `TARGETED_DEVICE_FAMILY = "1,2"`
   already set; iOS `ContentView` uses `NavigationStack` with flexible frames throughout
   (only card/button-level fixed widths, not page-level), so it should scale reasonably, but
@@ -114,10 +111,6 @@ from `game.js` at game over.
 
 - [ ] Apple sign-in on WEB: needs a Services ID + .p8-signed secret on spark (authorize returns 400).
       Blocked on Joshua (Apple Developer portal). Runbook in ~/Documents/Code/roadmap.md "Apple sign-in on WEB".
-- [x] Native iOS/macOS 2026-09-02: `Account.swift` (Sign in with Apple id_token grant, score POST,
-      leaderboard GET over URLSession) + `AccountViews.swift`; toolbar buttons in ContentView; APPLE_ID_AUTH
-      capability on bundle YDHCC4J3S2; entitlements updated. Builds clean, unsigned. Untested on device.
-      Ship as 1.3 once the art-flash TODOs above are done.
 - [ ] 1.2.2 ship attempt 2026-09-03 (iOS Settings sheet UI change) BLOCKED on signing: iOS automatic-signing
       archive still resolves to "iOS Team Provisioning Profile" (dev-team default), which lacks Sign In with
       Apple / com.apple.developer.applesignin, even after `asc signing fetch --create-missing` made a fresh
