@@ -118,4 +118,16 @@ from `game.js` at game over.
       leaderboard GET over URLSession) + `AccountViews.swift`; toolbar buttons in ContentView; APPLE_ID_AUTH
       capability on bundle YDHCC4J3S2; entitlements updated. Builds clean, unsigned. Untested on device.
       Ship as 1.3 once the art-flash TODOs above are done.
+- [ ] 1.2.2 ship attempt 2026-09-03 (iOS Settings sheet UI change) BLOCKED on signing: iOS automatic-signing
+      archive still resolves to "iOS Team Provisioning Profile" (dev-team default), which lacks Sign In with
+      Apple / com.apple.developer.applesignin, even after `asc signing fetch --create-missing` made a fresh
+      IOS_APP_STORE profile with the entitlement and it was dropped in
+      ~/Library/MobileDevice/Provisioning\ Profiles/. Automatic signing (`CODE_SIGN_STYLE: Automatic` in
+      ios/project.yml) doesn't pick it up from disk, it wants Xcode's own account-managed profile, which
+      means the Sign In with Apple capability isn't actually enabled on the App ID in the Apple Developer
+      portal (App IDs > com.heyitsmejosh.quotable > capabilities). macOS archive fails separately: no Mac
+      App **Development** profile exists at all (only the App Store one asc created), needed even for an
+      archive build under automatic signing. Blocked on Joshua: enable Sign In with Apple on the iOS App ID
+      in the portal, and either flip both targets to manual signing (point directly at the asc-fetched
+      profiles) or let Xcode auto-generate a Mac dev profile once signed into the Apple ID in Xcode.
 - [ ] Scores are client-reported; no anti-cheat. Add a server-side check only if the board gets gamed.
