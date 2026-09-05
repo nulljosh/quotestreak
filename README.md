@@ -10,6 +10,8 @@ Multiple choice, or a 10-second speed round that pays more the faster you answer
 
 Dad's idea.
 
+**Terminal:** `swift build && ./.build/debug/quotestreak-tui` — see [tui/](tui/)
+
 ## Screenshots
 
 <p>
