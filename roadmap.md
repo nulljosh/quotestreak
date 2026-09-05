@@ -124,3 +124,6 @@ from `game.js` at game over.
       in the portal, and either flip both targets to manual signing (point directly at the asc-fetched
       profiles) or let Xcode auto-generate a Mac dev profile once signed into the Apple ID in Xcode.
 - [ ] Scores are client-reported; no anti-cheat. Add a server-side check only if the board gets gamed.
+
+## TUI pilot (2026-09-05)
+- `quotestreak-tui` SwiftPM target (SwiftTUI). `swift build && ./.build/debug/quotestreak-tui` pulls one round from /api/random and shows the quote + marked answer. Not a guessing loop. Needs a real TTY.
