@@ -15,9 +15,6 @@ session (no Swift toolchain; TMDB/iTunes/mzstatic are refused by the egress poli
 
 - [ ] `TMDB_API_KEY=... node scripts/fetch-tmdb-art.mjs`, the 3 remaining movie-side
       gaps are TV series; the script now falls through to /search/tv.
-- [x] `node scripts/check-art.mjs`, all 188 resolve (2026-09-06).
-- [x] `quotes.json` copy in sync (2026-09-06).
-- [x] iOS + macOS build clean, ArtLoader compiles (2026-09-06).
 - [ ] Ship as 1.2: `asc workflow run ship-ios VERSION:1.2.0`.
 
 ## App Store status
