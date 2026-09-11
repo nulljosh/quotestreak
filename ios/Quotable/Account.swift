@@ -84,6 +84,20 @@ final class Account {
         for k in ["sb_access", "sb_refresh", "sb_user"] { UserDefaults.standard.removeObject(forKey: k) }
     }
 
+    /// Calls the shared `delete-account` Edge Function on the spark Supabase project,
+    /// which uses the service-role key to delete the authenticated user server-side
+    /// (the anon-key client SDK has no permission to delete its own auth user).
+    func deleteAccount() async -> Bool {
+        guard let accessToken else { return false }
+        var r = URLRequest(url: Self.url.appending(path: "functions/v1/delete-account"))
+        r.httpMethod = "POST"
+        r.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        guard let (_, response) = try? await URLSession.shared.data(for: r),
+              (response as? HTTPURLResponse)?.statusCode == 200 else { return false }
+        signOut()
+        return true
+    }
+
     private struct Session: Decodable {
         let access_token: String, refresh_token: String
         let user: User

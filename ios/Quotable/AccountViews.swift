@@ -3,6 +3,8 @@ import SwiftUI
 
 struct AccountSheet: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var confirmingDelete = false
+    @State private var deletingAccount = false
     private var account: Account { Account.shared }
 
     var body: some View {
@@ -11,6 +13,8 @@ struct AccountSheet: View {
             if account.isSignedIn {
                 Text("Signed in as \(account.name)")
                 Button("Sign out") { account.signOut() }
+                Button("Delete account", role: .destructive) { confirmingDelete = true }
+                    .disabled(deletingAccount)
             } else {
                 Text("Sign in to put your scores on the leaderboard.").multilineTextAlignment(.center).foregroundStyle(.secondary)
                 SignInWithAppleButton(.signIn, onRequest: account.prepare) { result in
@@ -32,6 +36,15 @@ struct AccountSheet: View {
         }
         .padding(28)
         .frame(minWidth: 320)
+        .confirmationDialog("Delete account?", isPresented: $confirmingDelete, titleVisibility: .visible) {
+            Button("Delete account", role: .destructive) {
+                deletingAccount = true
+                Task { if await account.deleteAccount() { dismiss() }; deletingAccount = false }
+            }
+            Button("Cancel", role: .cancel) {}
+        } message: {
+            Text("This permanently deletes your account and score history. This cannot be undone.")
+        }
     }
 }
 
