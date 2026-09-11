@@ -8,6 +8,11 @@ options:
   # Localizable.xcstrings only compiles the locales the project knows about.
   knownRegions: [en, fr, zh, pa, Base]
 
+packages:
+  Supabase:
+    url: https://github.com/supabase-community/supabase-swift
+    from: 2.0.0
+
 settings:
   base:
     SWIFT_VERSION: "5.9"
@@ -36,6 +41,9 @@ targets:
         buildPhase: resources
       - path: Assets.xcassets
         buildPhase: resources
+    dependencies:
+      - package: Supabase
+        product: Supabase
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.heyitsmejosh.quotable

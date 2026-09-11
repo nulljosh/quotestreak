@@ -17,6 +17,16 @@ struct AccountSheet: View {
                     Task { await account.finish(result); dismiss() }
                 }
                 .frame(width: 260, height: 44)
+
+                Button {
+                    Task { await account.signInWithGoogle(); dismiss() }
+                } label: {
+                    Text("Continue with Google")
+                        .fontWeight(.semibold)
+                        .frame(width: 260)
+                        .padding(.vertical, 12)
+                }
+                .buttonStyle(.bordered)
             }
             Button("Close") { dismiss() }.buttonStyle(.bordered)
         }

@@ -2,6 +2,7 @@ import AuthenticationServices
 import CryptoKit
 import Foundation
 import Observation
+import Supabase
 
 /// Supabase over plain URLSession: Sign in with Apple (native id_token grant, no .p8 needed),
 /// score submission, and the leaderboard view. Shared with macOS via project.yml.
@@ -27,6 +28,11 @@ final class Account {
     /// Raw nonce for the in-flight Apple request; Apple gets its SHA-256.
     private var nonce = ""
 
+    /// Used only for the Google OAuth browser flow (PKCE), which needs a real client to
+    /// drive ASWebAuthenticationSession. Apple sign-in and everything else stays on the
+    /// raw URLSession calls below.
+    private lazy var sbClient = SupabaseClient(supabaseURL: Self.url, supabaseKey: Self.anon)
+
     // MARK: Sign in with Apple
 
     func prepare(_ request: ASAuthorizationAppleIDRequest) {
@@ -50,6 +56,27 @@ final class Account {
         req.setValue("application/json", forHTTPHeaderField: "Content-Type")
         req.httpBody = try? JSONSerialization.data(withJSONObject: ["provider": "apple", "id_token": token, "nonce": nonce])
         await session(from: req)
+    }
+
+    // MARK: Sign in with Google
+
+    /// `quotable://` must stay in the Supabase project's uri_allow_list and in
+    /// CFBundleURLTypes on both platforms, or the callback lands nowhere.
+    func signInWithGoogle() async {
+        do {
+            try await sbClient.auth.signInWithOAuth(provider: .google, redirectTo: URL(string: "quotable://"))
+            let session = try await sbClient.auth.session
+            if let given = session.user.userMetadata["full_name"]?.stringValue ?? session.user.userMetadata["name"]?.stringValue {
+                name = String(given.prefix(24))
+                UserDefaults.standard.set(name, forKey: "sb_name")
+            }
+            accessToken = session.accessToken; refreshToken = session.refreshToken; userID = session.user.id.uuidString
+            UserDefaults.standard.set(session.accessToken, forKey: "sb_access")
+            UserDefaults.standard.set(session.refreshToken, forKey: "sb_refresh")
+            UserDefaults.standard.set(session.user.id.uuidString, forKey: "sb_user")
+        } catch {
+            // Sign-in just doesn't complete; the sheet's existing UI has no error slot for this path yet.
+        }
     }
 
     func signOut() {
