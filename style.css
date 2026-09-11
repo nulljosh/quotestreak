@@ -104,7 +104,7 @@ select {
   cursor: pointer;
   font-family: inherit;
 }
-#start-speed { background: var(--accent2); }
+#start-speed { background: var(--accent); }
 button:active { transform: scale(0.96); }
 blockquote {
   font-size: 1.5rem;
