@@ -195,6 +195,14 @@ a.skip:focus { position:fixed; left:1rem; top:1rem; z-index:99; padding:0.5rem 0
 <main id="main">
 <section class="hero">
   <div class="hero-wall" id="heroWall" aria-hidden="true"></div>
+  <script>
+  (function(){
+    var wall=document.getElementById('heroWall'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches,ticking=false;
+    if(reduced)return;
+    function onScroll(){if(ticking)return;ticking=true;requestAnimationFrame(function(){wall.style.transform='translateY('+(scrollY*0.15)+'px)';ticking=false;});}
+    addEventListener('scroll',onScroll,{passive:true});
+  })();
+  </script>
   <div class="container">
     <img class="hero-icon" src="icon.svg" alt="Quotestreak icon" width="88" height="88">
     <h1>Guess the movie or the artist from the quote.</h1>
