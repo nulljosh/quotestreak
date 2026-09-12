@@ -1,5 +1,5 @@
 @import url("https://heyitsmejosh.com/tokens.css");
-:root{--panel:var(--bg2);--panel2:var(--color-code-bg);--accent2:var(--bulb-deep);--link:var(--bulb-deep);--muted:var(--text2);--good:#248a3d;--bad:#d70015;}
+:root{--panel:var(--bg2);--panel2:var(--color-code-bg);--accent:#5B9BD5;--accent2:#3d6f9e;--link:#5B9BD5;--muted:var(--text2);--good:#248a3d;--bad:#d70015;}
 [data-theme="dark"]{--good:#34c759;--bad:#ff453a;}
 #settings-btn { background: none; border: none; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--muted); padding: 0 4px; }
 .setting-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: 0.75rem 0; }
