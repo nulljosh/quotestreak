@@ -4,29 +4,36 @@
 
 Here's the line. Name the movie.
 
-Quotestreak is a guessing game for movie quotes and lyrics. Static site, no build
-step, no backend. It's Quotestreak everywhere: App Store, repo, web. Only the
-domain (`quotable.heyitsmejosh.com`) and the `quotable_*` localStorage keys still
-carry the old name. See below.
+Quotestreak is a guessing game for movie quotes and lyrics, built because a
+trivia game about lines everyone half-remembers doesn't need an account, a
+server, or a monetization plan to be fun for thirty seconds at a time. Static
+site, no build step, no backend, because none of those are required to show
+a quote and take a guess. It's Quotestreak everywhere: App Store, repo, web.
+Only the domain (`quotable.heyitsmejosh.com`) and the `quotable_*` localStorage
+keys still carry the old name. See below.
 
 ## Guessing Engine
 
 `quotes.json` holds a hand-seeded bank of 272 entries (178 movie quotes + 94
 song lyrics, all verified, no fabricated attributions) across 10 genres.
-Both categories share one `answer` field, so they run through a single
-guessing loop: a quote or lyric is shown, the player picks the source from
-four options, and the game scores right/wrong with genre-colored feedback.
-The genre dropdown is populated dynamically from `quotes.json` rather than
-hardcoded, so adding a genre to the data file is enough to surface it in the
-UI. A speed round puts a 10-second clock on each question and pays a
-multiplier for answering fast. High score persists via `localStorage`.
+Both categories share one `answer` field, so lyrics and movie lines run
+through a single guessing loop instead of two parallel ones: a quote or
+lyric is shown, the player picks the source from four options, and the game
+scores right/wrong with genre-colored feedback. The genre dropdown is
+populated dynamically from `quotes.json` rather than hardcoded, so adding a
+genre to the data file is enough to surface it in the UI, no code change to
+ship new content. A speed round puts a 10-second clock on each question and
+pays a multiplier for answering fast, because a plain quiz with no clock has
+no reason to come back to. High score persists via `localStorage`, since
+there's no account system to hang it off and a leaderboard isn't the point.
 Sound effects are synthesized with the Web Audio API, no bundled audio
 assets, and their settings also persist in `localStorage`.
 
 224 entries carry an optional `art` URL (TMDB posters, iTunes album covers),
 resolving to 167 unique images once deduplicated by title. `art` is
 advisory: `game.js` no-ops when it is absent and the native apps never use
-it.
+it, because the game has to work without artwork at all, art is decoration
+on top of a text guessing game, not a dependency of it.
 
 ## Structure
 
@@ -47,7 +54,9 @@ Plain HTML/CSS/JS, no framework, no game library.
   gated; worst case is a restarted game. See `docs/API.md`.
 
 iOS and macOS are **native SwiftUI**, rewritten 2026-08-23 from an earlier
-WKWebView shell, a wrapper is a guaranteed Guideline 4.2 rejection. They
+WKWebView shell, because a wrapper is a guaranteed Guideline 4.2 rejection and
+there was no version of shipping to the App Store that didn't mean a real
+port. They
 share four sources (`Game.swift`, `ContentView.swift`, `Quote.swift`,
 `Theme.swift`); `macos/project.yml` points at the iOS copies rather than
 forking them, and `ContentView` branches on `#if os(macOS)`. `Game.swift` is
@@ -76,7 +85,9 @@ Flat backgrounds, no emojis, no decorative border stripes, blue accent only
 Apple platforms and Helvetica elsewhere, with no webfont to load.
 
 One sanctioned exception to "no gradients": the landing page's `.hero::after`
-scrim, which is a legibility mask over the artwork rather than decoration.
+scrim, which is a legibility mask over the artwork rather than decoration,
+earning its exception because the rule exists to keep the UI from looking
+AI-generated, and an unreadable headline fails a different, more basic bar.
 Without it the headline is unreadable over the wall. The game UI stays flat.
 
 The hero wall honors `prefers-reduced-motion`, at the specificity of the
