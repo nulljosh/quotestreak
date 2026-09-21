@@ -12,6 +12,8 @@ Dad's idea.
 
 **Terminal:** `swift build && ./.build/debug/quotestreak-tui` — see [tui/](tui/)
 
+<img src="progress.svg" width="460">
+
 ## Screenshots
 
 <p>
