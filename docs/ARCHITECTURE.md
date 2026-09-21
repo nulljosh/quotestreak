@@ -32,6 +32,33 @@ iOS/macOS apps: native SwiftUI apps. `Game.swift` implements the game loop (port
 | `macos/QuotableApp.swift` | macOS app entry: window group with min size |
 | `macos/project.yml` | XcodeGen: points shared source files at ../ios/Quotable/{Game,Quote,Theme,ContentView}.swift; ContentView branches on #if os(macOS) |
 | `macos/Assets.xcassets/` | AppIcon set (16/32/64/128/256/512/1024, rounded corners baked in) |
+| `watchos/` | watchOS companion app: syncs game state from iOS app Group container, shows score/streak/phase, no active gameplay |
+| `watchos/QuotableWatchApp.swift` | watchOS app entry point with window group |
+| `watchos/Models/WatchModels.swift` | QuotestreakSummary struct mirroring iOS SharedStore payload from the shared App Group |
+| `watchos/Models/WatchAPI.swift` | Reads shared App Group container (`group.com.heyitsmejosh.quotable`) to fetch synced game state |
+| `watchos/Views/StreakGlance.swift` + `SyncInfoView.swift` | Display current score, streak, and game phase; timestamp of last sync from iPhone |
+| `Package.swift` + `tui/` | SwiftPM target for macOS command-line player (TUI, non-interactive, reads quotes.json and renders one round) |
+| `i18n.js` | Runtime i18n loader: detects user language, fetches locale JSON, replaces `[data-i18n]` attributes, exposes `t()` for dynamic strings |
+| `i18n/strings.json` | Master translation file with `_meta` specifying source language and supported locales; source of truth for web and iOS |
+| `scripts/i18n-gen.mjs` | Generates `locales/*.json` from `i18n/strings.json` for the web, and `ios/Quotable/Localizable.xcstrings` for SwiftUI |
+| `locales/` | Generated per-language JSON files (en, fr, zh, pa); populated by i18n-gen.mjs |
+| `auth.js` | Sign-in/out, account creation, leaderboard fetch/submit via Supabase REST client (web-only, native apps use Account.swift) |
+| `devices.css` | Device frame styling: realistic iPhone/Android/Mac/Windows shells for landing page demo screens |
+| `privacy.html` | Privacy policy page: static HTML, linked from landing page footer |
+| `sw.js` | Service Worker: network-first caching for HTML pages (page load time versioning), cache-first for hashed assets |
+| `functions/mcp.js` | MCP server (JSON-RPC over HTTP): exposes game tools as MCP resources for agent visitors |
+| `functions/api/[[route]].js` | REST router: thin wrapper around callTool() in src/lib/tools.js, handles CORS, routes requests to tool implementations |
+| `src/lib/tools.js` | Single source of truth for all quote filtering tools (by genre, by type, search, limit, validation); called by both REST and MCP surfaces |
+| `src/lib/tools.test.mjs` | Node test for tools.js validation: filters quotes by genre/type, checks error cases |
+| `quotes.test.js` | Validation suite (node --test): checks quote bank structure (4 unique options, correct answer, no duplicates, movie years), scoring paths |
+| `scripts/build-site.sh` | Fetches quotes.json, generates locales, concatenates CSS/JS bundles for deployment |
+| `scripts/check-art.mjs` | Validates artwork against quotes.json (presence, format) |
+| `scripts/fetch-tmdb-art.mjs` + `fetch-itunes-art.mjs` | Tools for populating artwork URLs for movie and music entries (run offline, feeds art URLs into quotes.json) |
+| `kmp/` | Kotlin Multiplatform: Android/desktop clients reading static quotes.json from the web; QuotestreakClient in commonMain fetches and deserializes quotes |
+| `kmp/composeApp/src/commonMain/kotlin/com/nulljosh/quotestreak/AppScreen.kt` | Shared game UI (Compose Multiplatform) for Android and desktop |
+| `kmp/composeApp/src/androidMain/kotlin/com/nulljosh/quotestreak/MainActivity.kt` | Android entry point, activity setup |
+| `kmp/composeApp/src/desktopMain/kotlin/com/nulljosh/quotestreak/Main.kt` | Desktop (JVM) entry point, window setup |
+| `manifest.webmanifest` | PWA manifest: app name, icons, start URL, display mode |
 
 ## Quote bank structure
 
