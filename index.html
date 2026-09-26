@@ -8,8 +8,8 @@
 <meta property="og:url" content="https://quotestreak.heyitsmejosh.com/">
 <link rel="canonical" href="https://quotestreak.heyitsmejosh.com/">
 <meta name="description" content="A quote-guessing game. 272 movie quotes and song lyrics across 10 genres, multiple choice, plus a 10-second speed round with a score multiplier.">
-<meta name="theme-color" content="#5B9BD5">
-<meta property="og:title" content="Quotestreak — guess the movie or the artist from the quote">
+<meta name="theme-color" content="#f5f0e4">
+<meta property="og:title" content="Quotestreak - guess the movie or the artist from the quote">
 <meta property="og:description" content="A quote-guessing game. 272 movie quotes and song lyrics across 10 genres, multiple choice, plus a 10-second speed round with a score multiplier.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://quotable.heyitsmejosh.com/screenshots/web/03-question.jpg">
@@ -19,38 +19,23 @@
 <meta name="twitter:image" content="https://quotable.heyitsmejosh.com/screenshots/web/03-question.jpg">
 <meta name="apple-itunes-app" content="app-id=6804394619">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="https://heyitsmejosh.com/tokens.css">
 <style>
 :root {
-  --accent: #5B9BD5;
-  --link: #42719b;
-  --accent-soft: #eaf3fb;
-  --bg: #ffffff;
-  --bg2: #f7f7f8;
-  --text: #1c1d22;
-  --text2: #5c5f6a;
-  --border: #e6e7ea;
-  /* San Francisco on Apple platforms, Helvetica everywhere else. No webfont: nothing to load, nothing to FOUT. */
+  --accent: var(--clay);
+  --link: var(--clay-deep);
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, var(--bg));
   --font-body: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #111111;
-    --link: #5B9BD5;
-    --bg2: #1a1a1a;
-    --text: #e8e8f0;
-    --text2: rgba(232,232,240,0.62);
-    --border: rgba(232,232,240,0.12);
-    --accent-soft: #151d26;
+    --link: var(--clay);
+    --accent-soft: color-mix(in srgb, var(--accent) 9%, var(--bg));
   }
 }
 :root[data-theme="dark"] {
-  --bg: #111111;
-  --bg2: #1a1a1a;
-  --text: #e8e8f0;
-  --text2: rgba(232,232,240,0.62);
-  --border: rgba(232,232,240,0.12);
-  --accent-soft: #151d26;
+  --accent-soft: color-mix(in srgb, var(--accent) 9%, var(--bg));
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -282,7 +267,7 @@ function fit(){i.style.transform='scale('+(i.parentNode.clientWidth/i.offsetWidt
 <section id="install-anywhere">
   <div class="xp-wrap">
     <h2>Install it anywhere.</h2>
-    <p class="xp-lead">Quotestreak runs on every platform. On Windows, Linux and Android it installs straight from the browser &mdash; no store, no download, no runtime. It gets a real window, its own icon, and keeps working offline.</p>
+    <p class="xp-lead">Quotestreak runs on every platform. On Windows, Linux and Android it installs straight from the browser - no store, no download, no runtime. It gets a real window, its own icon, and keeps working offline.</p>
     <div class="xp-grid">
     <div class="xp-card">
       <h3>iPhone &amp; iPad</h3>
@@ -320,7 +305,7 @@ function fit(){i.style.transform='scale('+(i.parentNode.clientWidth/i.offsetWidt
 
 <footer>
   <div class="container">
-    <p>Quotestreak &mdash; by <a href="https://heyitsmejosh.com">Joshua Trommel</a></p>
+    <p>Quotestreak - by <a href="https://heyitsmejosh.com">Joshua Trommel</a></p>
     <p><a href="https://github.com/nulljosh/quotestreak">Source on GitHub</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="https://heyitsmejosh.com/docs.html#quotestreak">Docs</a></p>
   </div>
 </footer>
