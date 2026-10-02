@@ -145,8 +145,22 @@ section { padding: 4rem 0; }
 .closing { background: var(--bg2); text-align: center; border-top: 1px solid var(--border); }
 .closing p { color: var(--text2); max-width: 34rem; margin: 0 auto 1.75rem; }
 
-footer { padding: 2.5rem 0 3.5rem; text-align: center; font-size: 0.9rem; color: var(--text2); }
-footer p + p { margin-top: 0.35rem; }
+  /* Footer directory: tagline rule, four columns, two-by-two on phones. */
+  footer { padding: 0 0 3rem; text-align: center; font-size: .8125rem; color: var(--text2); }
+  footer .foot-rule { display: flex; align-items: center; gap: 16px; max-width: 880px; margin: 0 auto; padding: 8px 1.5rem 24px; color: var(--text); font-size: .6875rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 500; }
+  footer .foot-rule::before { content: ""; order: 1; flex: 1; height: 1px; background: var(--border); }
+  footer .foot-rule > :first-child { order: 0; }
+  footer .foot-rule > :last-child { order: 2; }
+  .foot-dir { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; max-width: 880px; margin: 0 auto; padding: 0 1.5rem 28px; text-align: left; }
+  .foot-col h3 { margin: 0 0 8px; font-size: .75rem; font-weight: 600; color: var(--text); letter-spacing: .02em; }
+  .foot-col ul { list-style: none; margin: 0; padding: 0; }
+  .foot-col a { position: relative; display: inline-block; padding: 5px 0; color: var(--text2); text-decoration: none; font-size: .8125rem; line-height: 1.35; }
+  .foot-col a::after { content: ""; position: absolute; top: 50%; left: 0; transform: translateY(-50%); width: 100%; height: 44px; min-width: 44px; }
+  .foot-col a:hover { color: var(--text); text-decoration: underline; }
+  .foot-bar { max-width: 880px; margin: 0 auto; padding: 18px 1.5rem 0; border-top: 1px solid var(--border); }
+  .foot-meta { margin: 0; color: var(--text2); font-size: .78rem; line-height: 1.9; }
+  .foot-meta a { color: var(--text2); }
+  @media (max-width: 700px) { .foot-dir { grid-template-columns: repeat(2, 1fr); } footer .foot-rule { font-size: .5625rem; letter-spacing: .14em; gap: 10px; } }
 a.skip { position:absolute; left:-9999px; }
 a.skip:focus { position:fixed; left:1rem; top:1rem; z-index:99; padding:0.5rem 0.9rem; background:var(--bg2); border:1px solid var(--border); border-radius:8px; color:var(--text); }
 :focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
@@ -211,7 +225,7 @@ function fit(){i.style.transform='scale('+(i.parentNode.clientWidth/i.offsetWidt
   </div>
 </section>
 
-<section class="features">
+<section id="modes" class="features">
   <div class="container">
     <h2>Quotes, lyrics, and a clock</h2>
     <div class="grid">
@@ -239,7 +253,7 @@ function fit(){i.style.transform='scale('+(i.parentNode.clientWidth/i.offsetWidt
   </div>
 </section>
 
-<section class="closing">
+<section id="play" class="closing">
   <div class="container">
     <h2>Name that quote</h2>
     <p>No sign-up, nothing to install. Pick a genre and start guessing.</p>
@@ -304,9 +318,46 @@ function fit(){i.style.transform='scale('+(i.parentNode.clientWidth/i.offsetWidt
 </section>
 
 <footer>
-  <div class="container">
-    <p>Quotestreak - by <a href="https://heyitsmejosh.com">Joshua Trommel</a></p>
-    <p><a href="https://github.com/nulljosh/quotestreak">Source on GitHub</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="https://heyitsmejosh.com/docs.html#quotestreak">Docs</a></p>
+  <div class="foot-rule" aria-hidden="true"><span>Quotestreak</span><span>Guess the quote.</span></div>
+  <nav class="foot-dir" aria-label="Footer">
+    <div class="foot-col">
+      <h3>Quotestreak</h3>
+      <ul>
+        <li><a href="/play.html">Play on the web</a></li>
+        <li><a href="https://apps.apple.com/us/app/id6804394619" target="_blank" rel="noopener">iPhone app</a></li>
+        <li><a href="https://apps.apple.com/us/app/id6804394619?mt=12" target="_blank" rel="noopener">Mac app</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>Explore</h3>
+      <ul>
+        <li><a href="#modes">Quotes and a clock</a></li>
+        <li><a href="#play">Name that quote</a></li>
+        <li><a href="#install-anywhere">Install anywhere</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>Developers</h3>
+      <ul>
+        <li><a href="https://github.com/nulljosh/quotestreak" target="_blank" rel="noopener">Source</a></li>
+        <li><a href="https://github.com/nulljosh/quotestreak/blob/main/docs/API.md" target="_blank" rel="noopener">API</a></li>
+        <li><a href="https://github.com/nulljosh/quotestreak/blob/main/docs/ARCHITECTURE.md" target="_blank" rel="noopener">Architecture</a></li>
+        <li><a href="https://github.com/nulljosh/quotestreak/issues" target="_blank" rel="noopener">Report a bug</a></li>
+        <li><a href="https://heyitsmejosh.com/docs.html#quotestreak">Docs</a></li>
+      </ul>
+    </div>
+    <div class="foot-col">
+      <h3>Project</h3>
+      <ul>
+        <li><a href="/privacy.html">Privacy</a></li>
+        <li><a href="https://github.com/nulljosh/quotestreak/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+        <li><a href="https://heyitsmejosh.com">Portfolio</a></li>
+        <li><a href="#main">Back to top</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="foot-bar">
+    <p class="foot-meta">Quotestreak &middot; MIT License &middot; &copy; 2026 Joshua Trommel &middot; Made with <span class="heart">&hearts;</span> in Vancouver, BC</p>
   </div>
 </footer>
 
