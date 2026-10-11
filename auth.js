@@ -1,10 +1,7 @@
-// Accounts + leaderboard on the shared spark Supabase project. Vanilla, no bundler.
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+// Accounts + leaderboard on spark-api (Cloudflare Workers + D1). Vanilla, no bundler.
+import { createClient } from './spark.js';
 
-const sb = createClient(
-  'https://tjsxsqlxjmanwvmywwvw.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRqc3hzcWx4am1hbnd2bXl3d3Z3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA0OTc0MDEsImV4cCI6MjA4NjA3MzQwMX0.LphLfho3wdQC20MhtcnBpzQUNuBoTOobrugQbNGxc68'
-);
+const sb = createClient('https://api.heyitsmejosh.com');
 const $ = (id) => document.getElementById(id);
 let user = null;
 
@@ -37,10 +34,6 @@ $('auth-signup').onclick = async () => {
   });
   msg(error ? error.message : 'Check your email to confirm your account.');
 };
-$('auth-google').onclick = () =>
-  sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + '/play' } });
-$('auth-apple').onclick = () =>
-  sb.auth.signInWithOAuth({ provider: 'apple', options: { redirectTo: location.origin + '/play' } });
 $('auth-logout').onclick = () => sb.auth.signOut();
 
 // Called by game.js at game over. Silently no-ops when signed out.
